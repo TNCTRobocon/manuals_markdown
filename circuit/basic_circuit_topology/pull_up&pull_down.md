@@ -1,5 +1,7 @@
 # プルアップ・プルダウン抵抗
+
 ##　基本
+
 　プルアップ抵抗やプルダウン抵抗はセンサーやスイッチの入力によく用いられる抵抗の挿入形式です。
 
 ![プルアップ&プルダウン](circuit\basic_circuit_topology\images\pull_up_down.png)
