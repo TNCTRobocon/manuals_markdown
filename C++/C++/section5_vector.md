@@ -25,7 +25,7 @@ std::vector<int> vec{1, 2, 3}
 
 ```c++
 std::vector<int> vec1{1, 2, 3, 4, 5};
-std::vector<int, 3> vec2 = {1, 2, 3};
+std::vector<int> vec2 = {1, 2, 3};
 
 std::vector<int> vec3(100);//要素数100、すべてに0をセット
 
@@ -68,6 +68,14 @@ vec[0]  = 10;
 配列とまったく同じであるので詳しい説明などは省略する
 
 範囲外アクセスには気を付ける
+
+気になるならばat関数を使うとよい
+
+```C++
+std::vector<int> vec = {1, 2, 3};
+
+vec.at(0)  = 10;
+```
 
 ## 二次元配列
 
