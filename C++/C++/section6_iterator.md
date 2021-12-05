@@ -130,3 +130,6 @@ auto型は型推論といい、自動でその変数の型を判別して適切�
 std::vector<int> vec = {1, 2, 3, 4, 5};
 auto itr = vec.begin();//これでint型のvectorクラスのイテレータの宣言ができている
 ```
+
+2021/12/05
+writen by 西永
