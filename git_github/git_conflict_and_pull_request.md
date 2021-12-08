@@ -38,7 +38,13 @@ git merge main
 
 この差分については各々で必要だと思うコードを取捨選択してほしい  
 
-vscodeにおいてよく使うのは
+こうして変更を取り込んだらindexに追加してコミット
+
+そしてマージすると成功する
+
+---
+
+vscodeにおいてコンフリクトしたときによく使うのは
 
 - Accept Current Change : コンフリクトしたところで作業中のところを残したい時
 - Accept Incoming Changes : コンフリクトしたところでマージしたところを残したい時
@@ -46,9 +52,7 @@ vscodeにおいてよく使うのは
 
 なので参考までに
 
-こうして変更を取り込んだらindexに追加してコミット
-
-そしてマージすると成功する
+---
 
 ### unrelated histries
 
@@ -77,7 +81,7 @@ fatal:refusing to merge unrelated histories
 
 ### プルリクとは
 
-githubでマージするときに必要な工程
+githubでブランチをマージするときに必要な工程
 
 ### プルリクの作り方
 
