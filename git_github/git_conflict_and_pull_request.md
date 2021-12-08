@@ -1,4 +1,4 @@
-# conflict と pull request
+# gitで知っておいたほうがいいことその2
 
 gitignore_and_branch を見ていない人は先にそちらをみてほしい
 
