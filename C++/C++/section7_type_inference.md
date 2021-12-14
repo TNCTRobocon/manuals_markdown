@@ -16,10 +16,33 @@ for (std::vector<int>::iterator itr = vec.begin(); itr != vec.end(); ++itr){
 }
 
 //↓auto使用
-for (auto itr = vec.begin(); itr != vec.end(); ++itr{
+for (auto itr = vec.begin(); itr != vec.end(); ++itr){
     std::cout << *itr << std::endl;
 }
 ```
+
+また、
+
+```C++
+int function(auto&ref, const auto arg, const auto& cref){
+    //コード
+}
+```
+
+のように`auto`型で参照、定数、const参照もできる  
+何ならよく使う
+
+しかし、`auto`も万能ではない  
+以下のような場合は使えない
+
+| 対象 | 対応 |
+|-|-|
+|ローカル変数|〇|
+|グローバル変数|×|
+|メンバ変数|×|
+|静的メンバ変数|constのみ可|
+|関数の戻り値|仮想関数以外なら可(C++14)|
+|関数の引数|ラムダ式のみ可(C++14)|
 
 ## template
 
@@ -33,7 +56,7 @@ section2で触れた関数について、オーバーロードという機能が
 だが、関数名が同じでも同じ処理を行って、変数を変えてとなると大変だしバグの元になるのでテンプレートを使おう
 
 ```C++
-template < typename T >
+template <typename T>
 T max( T a, T b )
 {
     return a < b ? b : a ;
@@ -48,6 +71,9 @@ int main(){
 
 `template<typename 〇>`でテンプレートの宣言  
 `typename T`のTは慣習的につけられてる名前なので適当につけても構わない
+
+また、`template<class 〇>`としてもおk  
+特に違いはない
 
 呼び出した時に  
 `max<int>(num1, num2)`  
@@ -66,7 +92,7 @@ int型として扱われるので当然引数や戻り値、変数の宣言に�
 ```C++
 //関数テンプレート
 template<typename T1, typename T2>
-void func(T1 x, T2 y){
+void func(T1 x, T2 y){//error
     //何か処理
 }
 
@@ -81,7 +107,7 @@ int main(){
 まだクラスについて説明していないので詳しいことは説明できないのでこういうもあるという説明にとどめる
 
 ```C++
-template < typename T >
+template <typename T>
 class pos_2d{
     T x = T{} ;
     T y = T{} ;
@@ -106,7 +132,23 @@ int main(){
 
 こうすれば要求した型の大きさに合わせて自分で動かしてくれるらしい
 
-### その他
+## decltype
+
+`decltype`は、オペランドで指定した式の型を取得する機能
+型を指定する必要のある個所で`decltype`を使用することによって、具体的な型名を指定する代わりに式から取得した型を指定できる
+
+```C++
+int i = 0;
+decltype(i) j = 0;//int
+decltype(i)* k = &i;//int*
+decltype((i)) l = i;//int&
+
+decltype(function()) r;//関数の返り値の型
+```
+
+`auto`の使えないところに使えるので便利
+
+## その他
 
 まだまだテンプレートにはいろいろと奥深い機能があるので調べてみるといい  
 あまりの複雑さにﾁｮｯﾄﾅﾆｲｯﾃﾙｶﾜｶﾗﾅｲみたいな状況になることが多々あるから頑張ってね……
