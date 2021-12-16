@@ -92,7 +92,7 @@ int型として扱われるので当然引数や戻り値、変数の宣言に�
 ```C++
 //関数テンプレート
 template<typename T1, typename T2>
-void func(T1 x, T2 y){//error
+void func(T1 x, T2 y){
     //何か処理
 }
 
@@ -132,6 +132,107 @@ int main(){
 
 こうすれば要求した型の大きさに合わせて自分で動かしてくれるらしい
 
+### concept
+
+C++20以降で使えるテンプレートを制限できる機能  
+こうすることでエラーメッセージなどが読みやすくなる
+
+```c++
+template<typename T>
+concept number = std::is_integral_v<T>//整数型であることを表すコンセプト
+```
+
+こうすることによって整数型のみにテンプレートを制限してしまい、エラーコードを読みやすくするなどの効果がある
+
+整数型以外にも
+
+- `regular`
+  基本型とかそのあたり
+  詳しく言うと
+  + ムーブ構築・代入可能  
+  + コピー構築・代入可能  
+  + デフォルト構築可能  
+  + swap可能  
+  + == !=による等値比較可能  
+であることを言う
+- `floating_point`
+  浮動小数点型であることを示す
+
+次はclassについての記述を含むのでわからなければ読み飛ばしてもらっても構わない
+
+```C++
+template<class T>
+concept Drowable = requires(T&x){
+    x.drow();//drow関数を持つことを必要とする
+    //他にも条件が必要なときはセミコロン区切りで列挙
+}
+
+template<Drowable T>
+void func(T&x){
+    x.drow();
+}
+
+struct Circle{
+    void drow(){}
+}
+
+struct Box{
+    void drow(){}
+}
+
+int main(){
+    Circle c;
+    func(c);
+
+    Box b;
+    func(b);
+
+    int i;
+    func(i);//error
+    //conceptでdrowメンバ関数を持っていないためDrowableコンセプトの要件を満たしていないためエラー
+}
+```
+
+このようにクラスに対してもコンセプトを使うことができる
+
+### typenameとusing
+
+`typename`の使い方について学んでいこう
+
+テンプレートパラメータでの使用は学んだと思うが、それ以外での使い方についても見ていく
+
+#### そもそもusingについて
+
+`using`には`typedef`のようなエイリアスを作る機能がある
+
+>エイリアス宣言という
+
+```C++
+using Integer = int;//Integerはint型としても扱える
+```
+
+他にも関数ポインタなどとも相性が良い  
+詳しくは自分で調べてほしい
+
+ここでテンプレートによる型の別名付けについて
+
+```c++
+template<typename T>
+using Vec = std::vector<T>;
+
+Vec<int> v;
+v.push_back(3);
+```
+
+このようにするとテンプレートを使った型にもエイリアスを作ることができる  
+これは`typedef`にはない機能で、usingのみの機能となる
+
+```c++
+template<typename T>
+void func(){
+    std::vector<>
+}
+
 ## decltype
 
 `decltype`は、オペランドで指定した式の型を取得する機能
@@ -147,6 +248,18 @@ decltype(function()) r;//関数の返り値の型
 ```
 
 `auto`の使えないところに使えるので便利
+
+よく使うものとしては
+
+```C++
+template <typename
+T1, typename T2>
+auto add(const T1& x,const T2& y)->decltype(x+y){
+    return x+y;
+}
+```
+
+のように関数の戻り値の指定に使えたりする
 
 ## その他
 
