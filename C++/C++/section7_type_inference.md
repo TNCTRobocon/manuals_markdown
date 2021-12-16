@@ -162,22 +162,22 @@ concept number = std::is_integral_v<T>//整数型であることを表すコン�
 
 ```C++
 template<class T>
-concept Drowable = requires(T&x){
-    x.drow();//drow関数を持つことを必要とする
+concept Drawable = requires(T&x){
+    x.draw();//draw関数を持つことを必要とする
     //他にも条件が必要なときはセミコロン区切りで列挙
 }
 
-template<Drowable T>
+template<Drawable T>
 void func(T&x){
-    x.drow();
+    x.draw();
 }
 
 struct Circle{
-    void drow(){}
+    void draw(){}
 }
 
 struct Box{
-    void drow(){}
+    void draw(){}
 }
 
 int main(){
@@ -189,7 +189,7 @@ int main(){
 
     int i;
     func(i);//error
-    //conceptでdrowメンバ関数を持っていないためDrowableコンセプトの要件を満たしていないためエラー
+    //conceptでdrawメンバ関数を持っていないためDrawableコンセプトの要件を満たしていないためエラー
 }
 ```
 
