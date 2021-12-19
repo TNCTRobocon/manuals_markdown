@@ -62,55 +62,5 @@ int main(){
 しかし、`malloc`との互換性があるわけではない  
 `new`で確保したメモリは`free()`で解放できないし、`malloc`で確保したメモリは`delete`で解放もできない
 
-## クラスについて
-
-クラスについて触れていないのでわからなければ読み飛ばしてもよいが、これは知っておいた方が良い知識であるからクラスについて学んだらもう一度読んでほしい
-
-`new`を使うとクラスのコンストラクタを呼び出すことができる
-
-```c++
-#include<iostream>
-#include<stdlib.h>
-
-using namespace std;//ごめんなさいごめんなさいごめんなさい
-
-class hoge{
-    hoge(){
-        cout<<"コンストラクタ"<<endl;
-    }
-
-    ~hoge(){
-        cout<<"デストラクタ"<<endl;
-    }
-};
-
-int main(){
-    hoge*new_hoge;
-    hoge*malloc_hoge;
-
-    cout<<"new"<<endl;
-    new_hoge = new hoge();
-    cout<< "malloc" <<endl;
-    malloc_hoge = (hoge*)malloc(sizeof(hoge));
-
-    cout<<"delete"<<endl;
-    delete new_hoge;
-    cout<<"free"<<endl;
-    free(malloc_hoge);
-}
-
-```
-
-```markdown
-new
-コンストラクタ
-malloc
-delete
-デストラクタ
-free
-```
-
-このように、mallocとfreeではコンストラクタとデストラクタは呼び出されず、newとdeleteではコンストラクタもデストラクタも呼び出されるという結果になった
-
 2021/12/15  
 written by 西永
