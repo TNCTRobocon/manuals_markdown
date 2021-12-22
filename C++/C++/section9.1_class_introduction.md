@@ -131,3 +131,78 @@ private: //ここからprivate
 インスタンスは構造体と同じくいくらでも生成できる
 
 基本的にクラス型変数はインスタンスと考えて差支えないが、クラスでポインタを扱う場合はそうとも限らない
+
+## ファイル分割とクラス
+
+クラスは別ファイルに分割して書くことも多い  
+その時の注意などを説明する
+
+クラスをヘッダファイルで定義するとインクルードして使うことができる  
+
+### メソッドとファイル分割
+
+メンバ関数(メソッド)を定義するときは必ずしもクラス内に記述しなければいけないというわけではない  
+
+- lib.cpp
+
+```C++
+#include"lib.hpp"
+
+#include<iostream>
+
+int function::plus(int i, int j){//functionクラスのメソッド
+    std::cout<<"in function class"<<std::endl>;
+    return i + j;
+}
+
+int plus(int i, int j){//ただの関数
+    std::cout<<"normal function"<<std::endl;
+    return i + j;
+}
+```
+
+- lib.hpp
+
+```C++
+int plus(int, int);
+
+class function{
+public:
+    int plus(int, int);
+}
+
+```
+
+- main.cpp
+
+```C++
+#include"lib.hpp"
+
+int main(){
+    function f;
+    int i = f.plus(2, 4);
+
+    plus(1, 5);
+}
+```
+
+- 結果
+
+```markdown
+in function class
+normal function
+```
+
+このようにまったく定義することができる
+
+簡単な関数ならクラス内に記述しても問題ないのだが、例以上に行数や複雑さが増えると、ややこしくなってくる  
+このようになってくると関数の定義をクラス外で定義した方が良いのはわかるだろうか
+
+このように書くことでクラスの外で定義することができる
+
+クラス外でメソッドを定義するとき、基本的にはソースファイルに書き込むのが一般的
+
+ファイル分割に関してはC言語編を参照してほしい
+
+2022/12/22
+ written by 西永

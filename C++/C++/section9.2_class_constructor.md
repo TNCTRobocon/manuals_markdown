@@ -50,6 +50,9 @@ class arg_constructor{
 public:
     arg_constructor(){
         std::cout<< "no argument"<< std::endl;
+
+        num = 0;
+        str = "";
     }
 
     arg_constructor(int _num, std::string _str){
@@ -112,7 +115,10 @@ public:
 ```
 
 このように初期化することができる  
-こうすると効率的に初期化を行うことが可能である  
+こうすると効率的に初期化を行うことが可能である
+
+注意点としてメンバイニシャライザはフィールドの順番と同じにしなければいけないというところがある  
+→クラスで宣言した順番で初期化しなければいけない
 
 >効率的に行える理由
 >>オブジェクトがインスタンス化される際の流れは、次のような感じになっている  
@@ -210,10 +216,11 @@ class copy_c{
     int*p;
 
 public:
-    copy_c(const int&_p) : p(_p) {}
+    copy_c(const int*_p) : p(_p) {}
 
     copy_c(const copy_c&c){
         p = nullptr;
+        std::cout<<"copy constructor"<<std::endl;
     }
 
     get(int i){
@@ -269,7 +276,7 @@ int main(){
 
 privateでコピーコンストラクタを定義するとインスタンスを生成した時点でエラーになる  
 
-自動生成されるコンストラクタは別の記法でも禁止することができる
+自動生成されるコンストラクタは別の記法でも禁止することができる(C++17以降)
 
 ```C++
 class copy_c{
