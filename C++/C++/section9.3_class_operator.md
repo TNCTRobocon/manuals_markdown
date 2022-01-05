@@ -30,7 +30,7 @@ public:
         return vec[i];
     }
 
-    vector_2d operator +(vector_2d&vec_plus)const{
+    vector_2d operator +(const vector_2d&vec_plus)const{
         vector_2d vec_equal((*this)[0] + vec_plus[0], (*this)[1] + vec_plus[1]);
         return vec_equal;
     }
