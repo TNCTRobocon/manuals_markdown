@@ -62,5 +62,7 @@ int main(){
 しかし、`malloc`との互換性があるわけではない  
 `new`で確保したメモリは`free()`で解放できないし、`malloc`で確保したメモリは`delete`で解放もできない
 
+作法として`delete`や`free`を行ったら速やかにポインタに`nullptr`を代入する
+
 2021/12/15  
 written by 西永
