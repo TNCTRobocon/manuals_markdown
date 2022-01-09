@@ -40,7 +40,7 @@ int*create_array(int size, int n = 0){
         arr[i] = n;
     }
 
-    return i;
+    return arr;
 }
 
 int main(){
