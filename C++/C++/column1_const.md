@@ -69,7 +69,7 @@ constexpr unsigned int bufsize = sizeof("roboconA");//bufsizeの値は8
 #define END }
 
 START
-OUT(define!)
+OUT("define!")
 END
 ```
 
@@ -80,6 +80,17 @@ define!
 こんなえげつないこともできちゃうのでやめてください  
 
 そもそもプリプロセッサはコンパイル条件を設定する以外のことにできる限り使わないようにするのがベスト
+
+どうしても使いたいときは
+
+```C++
+#define OUT(x) std::cout <<x<<std::endl;
+OUT("define!")
+
+#undef OUT
+```
+
+という風に範囲を限定して書く
 
 ## constexpr関数
 
