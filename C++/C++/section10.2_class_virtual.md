@@ -14,7 +14,7 @@ public:
     }
 };
 
-class Japanese : public human{
+class japanese : public human{
 public:
     void talk() const override {
         std::cout << "こんにちは" << std::endl;
@@ -27,7 +27,7 @@ void lets_talk(human&Human){
 
 int main(){
     human John;
-    Japanese Taro;
+    japanese Taro;
 
     John.talk();//hello
     Taro.talk();//こんにちは
@@ -80,6 +80,8 @@ lets_talk関数を見て何か思うところはないだろうか
 
 ただし、上記のような呼び出し方ができるのはポインタか参照の時のみなので注意
 
+>参照はキャストされるのできちんとしたポリモーフィズムを実現できない
+
 これはスライシングと言い、避けるべきとされる
 
 ```C++
@@ -89,7 +91,7 @@ void lets_talk(human Human){
 
 int main(){
     human John;
-    Japanese Taro;
+    japanese Taro;
 
     lets_talk(John);//hello
     lets_talk(Taro);//hello
