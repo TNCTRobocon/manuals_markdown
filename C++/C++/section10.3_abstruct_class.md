@@ -10,14 +10,14 @@ public:
     virtual void talk() const = 0;//純粋仮想関数
 };
 
-class american{
+class american : public human{
 public:
     void talk()const override{
         std::cout << "hello" << std::endl;
     }
 };
 
-class japanese{
+class japanese : public human{
     void talk()const override{
         std::cout << "こんにちは" <<std::endl;
     }
