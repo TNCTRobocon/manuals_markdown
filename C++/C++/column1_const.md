@@ -19,12 +19,13 @@ constとは何が違うのか
 `const`では定数を使うときにメモリにアクセスするが、`constexpr`はコンパイル時にソースコードに埋め込まれる
 
 ```c++
-const int const_i;
-const_i = 0;//ok
-constexpr int c_expr1;///error
+const int const_i1 = arg;//ok
+const int const_i;//error
 
+constexpr int c_expr1;///error
 constexpr int c_expr2 = 10;//ok
 constexpr int c_expr3 = 3*5;//ok
+constexpr int c_expr4 = arg;//error
 constexpr unsigned int bufsize = sizeof("roboconA");//bufsizeの値は8
 ```
 
