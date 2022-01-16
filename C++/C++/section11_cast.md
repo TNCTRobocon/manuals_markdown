@@ -40,6 +40,8 @@ int *p = &num;
 float*fp = static_cast<float*>(static_cast<void*>(p));
 ```
 
+>C++ではこのような操作はするべきではない
+
 このようにポインタをキャストする場合は`void*`を経由しなければならない
 
 C++11以降では後述する`reinterpret_cast`では`void*`を経由することなく直接変換できる
@@ -69,6 +71,8 @@ reinterpret → 再解釈
 
 bit表現を変えずに表現する  
 例えばint型の10とfloat型の10.0fはキャストするときに内部でのビットの表記が変わるが、これはそういった加工をしないキャスト
+
+極力使わない方がよい
 
 ```C++
 int num = 10;
@@ -163,17 +167,20 @@ int main(){
     new base(),
     new derived_a(),
     new derived_b();
+    };
 
-    for(int i = 0; i < b_vec.size(); i++){
+    for(const auto& i : b_vec){
         derived_a*a = dynamic_cast<derived_a>(b_vec.at(i));
-        if(a != NULL){
+        if(a != nullptr){
             a.setter(i);
         }
     }
 }
 ```
 
-ポインタをキャストしたときにキャスト可能かどうか判断して可能ならキャストし、不可能なら`NULL`を返すキャスト
+>`for(const auto& i : b_vec)`についてはcolumn2_range_for.mdを参照
+
+ポインタをキャストしたときにキャスト可能かどうか判断して可能ならキャストし、不可能なら`nullptr`を返すキャスト
 
 判断する手間が増えるので重い処理になるので何回も使わないのがベスト
 
