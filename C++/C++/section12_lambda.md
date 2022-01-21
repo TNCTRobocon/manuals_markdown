@@ -201,6 +201,8 @@ int main(){
 
 キャプチャを含まなければ同じパラメータを持つ関数ポインタに変換できる
 
+std::functionを使う方が圧倒的に楽であるが一応
+
 ```C++
 void call_func(int(*fp)(int, int)){
     func(1, 2);
