@@ -219,14 +219,14 @@ TODO: 振る舞いについて書く
 #include <stddef.h>
 #include <stdint.h>
 
-typedef struct ling_buffer{
-  // これらの値は、ling_buffer_*とつく関数以外から見えないものとして扱うこと
+typedef struct ring_buffer{
+  // これらの値は、ring_buffer_*とつく関数以外から見えないものとして扱うこと
   uint8_t *bufffer;// バッファそのものを内包しないことで汎用性を高める
   size_t in,out;
   size_t used,size;//usedは省略可能ですが、実装がめんどくなります。
-}ling_buffer_t;
+}ring_buffer_t;
 
-ling_buffer_t* ling_buffer_init(ling_buffer_t* lb, void* buffer, size_t size){
+ring_buffer_t* ring_buffer_init(ring_buffer_t* lb, void* buffer, size_t size){
   if (!lb)return NULL;
   if (!buffer)return NULL;
 
@@ -236,7 +236,7 @@ ling_buffer_t* ling_buffer_init(ling_buffer_t* lb, void* buffer, size_t size){
   return lb;
 }
 
-char ling_buffer_putc(ling_buffer_t* lb,uint8_t value){
+char ring_buffer_putc(ring_buffer_t* lb,uint8_t value){
   if (!lb)return 0;
   if (lb->used +1 >= lb->size)return 0;
 
@@ -246,7 +246,7 @@ char ling_buffer_putc(ling_buffer_t* lb,uint8_t value){
   return value;
 }
 
-char ling_buffer_getc(ling_buffer_t* lb){
+char ring_buffer_getc(ring_buffer_t* lb){
   if (!lb)return 0;
   if (lb->used==0)return 0;
 
@@ -256,15 +256,15 @@ char ling_buffer_getc(ling_buffer_t* lb){
   return value;
 }
 
-size_t ling_buffer_used(ling_buffer_t* lb){
+size_t ring_buffer_used(ring_buffer_t* lb){
   return lb?lb->used:0;
 }
 
-size_t ling_buffer_size(ling_buffer_t* lb){
+size_t ring_buffer_size(ring_buffer_t* lb){
   return lb?lb->size:0;
 }
 
-void ling_buffer_clear(ling_buffer_t* lb){
+void ring_buffer_clear(ring_buffer_t* lb){
   if (!lb)return;
 
   lb->in=lb->out=lb->used=0;
