@@ -197,7 +197,22 @@ hello
 
 #### 3. システムコールを使ってみよう。
 
-TODO: 書く
+システムコールをラップしているヘッダーファイル`<unistd.h>`の`write`を
+用いて次のように記述します。
+
+なお、一般的な環境において標準入力と標準出力、標準エラーは最初から
+開かれており、そのファイル記述子の番号は既知であることから定数と
+して利用できます。
+
+```c
+#include <unistd.h>
+
+int main(int argc,char** argv){
+    const char hello[] = "hello world\n";
+    write(STDOUT_FILENO, hello, sizeof(hello));
+    return 0;
+}
+```
 
 ### バッファを使った文字列の表示
 
