@@ -221,6 +221,115 @@ int main(int argc,char** argv){
 
 バッファを使って効率よくまとめれて文字列を書き込む方法を習得しましょう。
 
+### メモリー管理の補助関数
+
+バッファを使って効率よく読み書きする前に、効率よくバッファを操作できるように
+`<string.h>`の一部の関数を実装しましょう。
+
+なお、セキュアになった関数を省略していますが、実装してみるといい練習に
+なるでしょう。
+
+* 実装例: `my_string.h`
+```c
+#pragma once
+#ifndef __MY_STRING_HEADER_GUARD__
+#define __MY_STRING_HEADER_GUARD__
+
+#include <stddef.h>
+
+size_t my_strlen(const char*);
+// 転送系
+void* my_memset(void*,int,size_t);
+void* my_memcpy(void*,const void*,size_t);
+char* my_strcpy(char*,const void*);
+char* my_strcat(char*,const void*);
+
+// 比較系
+int my_memcmp(const void*,const void*,size_t);
+int my_strcmp(const char*,const char*);
+
+#endif /*__MY_STRING_HEADER_GUARD__*/
+```
+
+* 実装例: `my_string.c`
+```c
+#include "my_string.h"
+size_t my_strlen(const char* s){
+  // WARN: sがヌル終端文字列を終端されている保証はあるのか?
+  size_t i=0;
+  for (;*s!='\0';s++,i++);
+  return i;
+}
+
+void* my_memset(void* _d,int _v,size_t s){
+  uint8_t *d=_d;
+  const uint8_t v=_v;
+  for (;s>0;s--,d++){
+    *d=v;
+  }
+  return _d;
+}
+
+void* my_memcpy(void* _dest,const void *_src,size_t sz){
+  // HACK: 実はワードのアライメントを意識してワード帳と等しい長さを持つ
+  // uint32_tもしくはuint64_tのポインタを利用すると高速化できる。
+  // HACK: 更に高速化したい場合は、DMAの機能を用いると良い
+  // (インテルのコンパイラでは自動的にmemcpyがdma転送になる)
+  // WARN: sizeof(dest)>=sizeof(src)として扱っているが、本当か?
+  uint8_t* dest=_dest;
+  const uint8_t* src=_src;
+  for (;sz>0;sz--){
+    *src=*dest;
+  }
+  return _dest;
+}
+
+char* my_strcpy(char* d,const void* s){
+  //WARN: dがstrlen(s)+1の大きさのメモリーを持つことが引数から読み取れない。
+  char *r=d;
+  for (;*s!='\0';s++,d++){
+    *d=*s;
+  }
+  *d='\0';
+  return r;
+}
+
+char* my_strcat(char* d,const void* s){
+  //WARN: dがstrlen(d)+strlen(s)+1の大きさのメモリーを持つことが引数から読み取れない。
+  char *r=d;
+  for(;*d!='\0';s++);//move last of d ,無駄な箇所
+  for(;*s!='\0';s++,d++){
+    *d=*s;
+  }
+  *d='\0';
+
+  return r;
+}
+
+int my_memcmp(const void* _a,const void* _b,size_t s){
+  // HACK: 実はワードのアライメントを意識してワード帳と等しい長さを持つ
+  // uint32_tもしくはuint64_tのポインタを利用すると高速化できる。
+  const uint8_t *a=_a;
+  const uint8_t *b=_b;
+  for (;s>0;s--){
+    if (a>b){
+      return 1;
+    }
+    if (a<b){
+      return -1;
+    }
+  }
+  return 0;
+}
+
+
+int my_strcmp(const char*,const char*){
+  //TODO: my_memcmpを参考に実装せよ
+  return 0;
+}
+
+```
+
 ### バッファとフラッシュ
 
 マイコン環境・Linux環境共にまとめて文字列を書き込むリングバッファについて
@@ -228,9 +337,13 @@ int main(int argc,char** argv){
 
 TODO: 振る舞いについて書く
 
-実装例: 
+実装例: リングバッファ
 
+* `ring_buffer.h`
 ```c
+#pragma once
+#ifndef __RING_BUFFER_HEADER_GUARD__
+#define __RING_BUFFER_HEADER_GUARD__
 #include <stddef.h>
 #include <stdint.h>
 
@@ -241,6 +354,31 @@ typedef struct ring_buffer{
   size_t used,size;//usedは省略可能ですが、実装がめんどくなります。
 }ring_buffer_t;
 
+ring_buffer_t* ring_buffer_init(ring_buffer_t* lb, void* buffer, size_t size);
+char ring_buffer_putc(ring_buffer_t* lb,uint8_t value);
+char ring_buffer_getc(ring_buffer_t* lb);
+size_t ring_buffer_write(ring_buffer_t* lb,const uint8_t *bytes, size_t);
+size_t ring_buffer_read(ring_buffer_t* lb,uint8_t *bytes, size_t);
+
+static inline size_t ring_buffer_used(ring_buffer_t* lb){
+  return lb?lb->used:0;
+}
+
+static inline size_t ring_buffer_size(ring_buffer_t* lb){
+  return lb?lb->size:0;
+}
+
+static inline void ring_buffer_clear(ring_buffer_t* lb){
+  if (!lb)return;
+  lb->in=lb->out=lb->used=0;
+}
+
+#endif /*__RING_BUFFER_HEADER_GUARD__*/ // 対応するペアがわからなくなるのでつけておくj
+```
+
+* `ring_buffer.c`
+```c 
+#include "ring_buffer.h"
 ring_buffer_t* ring_buffer_init(ring_buffer_t* lb, void* buffer, size_t size){
   if (!lb)return NULL;
   if (!buffer)return NULL;
@@ -271,19 +409,37 @@ char ring_buffer_getc(ring_buffer_t* lb){
   return value;
 }
 
-size_t ring_buffer_used(ring_buffer_t* lb){
-  return lb?lb->used:0;
+size_t ring_buffer_write(ring_buffer_t* lb,const uint8_t *bytes, size_t size){
+  //TODO: 実装せよ(課題)
+  return 0;
 }
 
-size_t ring_buffer_size(ring_buffer_t* lb){
-  return lb?lb->size:0;
+size_t ring_buffer_read(ring_buffer_t* lb,uint8_t *bytes, size_t){
+  //TODO: 実装せよ(課題)
+  return 0;
 }
 
-void ring_buffer_clear(ring_buffer_t* lb){
-  if (!lb)return;
+```
 
-  lb->in=lb->out=lb->used=0;
-}
+* `console.h`
+```c
+#pragma once
+#ifndef __CONSOLE_HEADER_GUARD__
+#define __CONSOLE_HEADER_GUARD__
+
+void console_init();
+
+
+#endif /*__CONSOLE_HEADER_GUARD__*/
+```
+
+```c
+#include "ring_buffer.h"
+#include "console.h"
+static ring_buffer_t stdout_buffer;//隠蔽する
+
+
+
 
 ```
 
