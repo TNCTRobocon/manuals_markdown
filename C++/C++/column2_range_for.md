@@ -64,7 +64,7 @@ for (const auto&v : vec){
 }
 ```
 
-書き換えようとした時点でエラーが発生する
+コンパイルした時点でエラーが発生する
 
 |`auto v`|`auto&v`|`const auto&v`|
 |-|-|-|
@@ -75,8 +75,8 @@ for (const auto&v : vec){
 if文の中で初期化を行えるようになった(C++17)
 
 ```C++
-if(status = func(); status != SUCCESS){
-    ...
+if ( auto status =func();status.isError()){
+    cout<<status.getMessage();
 }
 ```
 
