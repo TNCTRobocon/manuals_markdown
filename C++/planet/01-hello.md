@@ -335,7 +335,26 @@ int my_strcmp(const char*,const char*){
 マイコン環境・Linux環境共にまとめて文字列を書き込むリングバッファについて
 説明します。
 
-TODO: 振る舞いについて書く
+リングバッファは、性能に制限があるマイコン環境では固定長のメモリー領域を
+もつものを一般に利用し、性能に余裕がある環境では可変長のメモリー領域を持つ
+データ構造です。C++が使えるリッチな環境においては、通常はstd::dequeを
+利用すると良いでしょう。(C++が使えるものの、リッチではない環境では
+templateを使って実装すると良いでしょう)
+
+リングバッファは、内部的に先頭と末尾の添字を持ち、要素の追加には
+先頭の添字を進ませ、要素の取り出しには末尾の添字を進ませると
+いったことが行われます。
+
+よって、リングバッファは次のような性質を持ちます。
+
+| 操作                     | 計算量 |
+| ------------------------ | ------ |
+| 先頭への要素の追加・削除 | O(1)   |
+| 末尾への要素の追加・削除 | O(1)   |
+| 途中への要素の削除・挿入 | O(n)   |
+
+次に実装例を示します。なお、複数の要素を書き込む・読み込む関数の実装例を
+示していないので各々で実装してみてください。
 
 実装例: リングバッファ
 
@@ -421,31 +440,102 @@ size_t ring_buffer_read(ring_buffer_t* lb,uint8_t *bytes, size_t){
 
 ```
 
-* `console.h`
+そして、リングバッファをストリームを管理するものとして抽象化してみましょう。
+これを使うことで、write,read,flushがある様々なストリームをまとめて管理できます。
+
+* `file.h`
+
+```c
+#pragma once
+#ifndef __IO_HEADER_GUARD__
+#define __IO_HEADER_GUARD__
+
+#include <stddef.h>
+#include <stdint.h>
+#include "my_string.h"
+
+typedef struct file{
+  void *object;
+  size_t (*write)(void* object, const uint8_t* bytes,size_t size);
+  size_t (*read)(void* object, uint8_t* bytes,size_t size);
+  void (*flush)(void *object);
+}file_t;
+
+static inline file_t file_init(file_t* fp,
+  void *object,
+  size_t *write(void*,const uint8_t*,size_t),
+  size_t *read(void* object, uint8_t* bytes,size_t size),
+  void (*flush)(void *object)){
+    if (!fp)return NULL;
+    fp->object=object;
+    fp->write=write;
+    fp->read=read;
+    fp->flush=flush;
+}
+
+static inline size_t file_write(file_t* fp,const uint8_t* bytes,size_t size){
+    if (!fp)return 0;
+    return fp->write(fp->object,bytes,size);
+}
+
+
+static inline size_t file_read(file_t* fp,uint8_t* bytes,size_t size){
+    if (!fp)return 0;
+    return fp->write(fp->object,bytes,size);
+}
+
+static inline void file_flush(file_t* fp){
+    if (fp)return;
+    fp->flush(fp->object);
+}
+
+static inline char file_putc(file_t*t fp,char c){
+  return fp->write(fp->object, *c,sizeof(c))>0?c:0;
+}
+
+static inline const char* file_puts(file_t fp,const char* str){
+  return fp->write(fp->object, str,my_strlen(str));
+}
+
+static inline char file_getc(file_t*t fp){
+  char c;
+  return fp->read(fp->object,&c,sizeof(c))>0?c:0;
+}
+
+static inline char* file_gets_s(file_t fp,char* str,size_t size){
+  //NOTE: getsがあまりに危ないのでセキュア版の実装例を示す。
+  size_t i;
+  for (i=0;i<size-1;i++){
+    char c=file_getc(fp);
+    if (c=='\0'||c=='\n'){
+      str[i]='\0';
+      return str;
+    }
+    str[i]=c;
+  }
+  str[i]='\0';
+  return str;
+}
+
+#endif /*__IO_HEADER_GUARD__*/
+```
+
+
+つぎにリングバッファの利用例であるコンソールへの入出力をバッファする実装を
+示します。
+
+* `console_.h`
+
 ```c
 #pragma once
 #ifndef __CONSOLE_HEADER_GUARD__
 #define __CONSOLE_HEADER_GUARD__
 
-void console_init();
-
-
-#endif /*__CONSOLE_HEADER_GUARD__*/
-```
-
-```c
-#include "ring_buffer.h"
-#include "console.h"
-static ring_buffer_t stdout_buffer;//隠蔽する
-
-
-
-
+#endif  /*__PIPE_BUFFER__HEADER_GUARD__*/
 ```
 
 TODO: バッファ内容を書き出すタイミングについて書く
 
-TODO: リングバッファもread,write,flushをもつファイルの一種なのではと気づかせること
 
 ### A. マイコン環境での割り込みを用いた文字列の書き出し
 
