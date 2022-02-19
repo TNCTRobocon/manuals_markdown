@@ -270,7 +270,7 @@ int main(){
 
     copy_c cc1(&num);
     cc1.get(1);
-    copy_c cc2(cc1);//この時点でエラー
+    copy_c cc2(cc1);//エラー
 }
 ```
 
