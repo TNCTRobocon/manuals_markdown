@@ -85,3 +85,4 @@ int return_func = func();
 `xvalue`は本来右辺値であるがまぁ左辺値にも見えるだろうということでできた値
 
 2022/02/21
+written by 西永
