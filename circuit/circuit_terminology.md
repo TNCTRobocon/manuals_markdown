@@ -541,7 +541,7 @@
 - フルブリッジ
   - ハーフブリッジ二つを並列につなげたもの。
   - モータードライバとしてよく使われる。
-- [プルアップ・プルダウン](https://github.com/TNCTRobocon/manuals_markdown/blob/main/circuit/basic_circuit_topology/pull_up%26pull_down.md)
+- [プルアップ・プルダウン](basic_circuit_topology/pull_up%26pull_down.md)
   - 信号の入出力がHIGHかLOWに確定するようにするために抵抗を購入する方法
 - チャージポンプ
   - コンデンサとスイッチング素子を用いて様々な電圧を出力する回路
