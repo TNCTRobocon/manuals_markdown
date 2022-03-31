@@ -531,14 +531,14 @@
 
 <details><summary> ロボコンでよく使用される回路構成</summary><div>
 
+### 基本要素
 - ハーフブリッジ
   - スイッチング素子二つを直列に接続したもの
 - フルブリッジ
   - ハーフブリッジ二つを並列につなげたもの。
   - モータードライバとしてよく使われる。
-- プルアップ・プルダウン
+- [プルアップ・プルダウン](https://github.com/TNCTRobocon/manuals_markdown/blob/main/circuit/basic_circuit_topology/pull_up%26pull_down.md)
   - 信号の入出力がHIGHかLOWに確定するようにするために抵抗を購入する方法
-  - 詳しくは[ここ](https://github.com/TNCTRobocon/manuals_markdown/blob/main/circuit/basic_circuit_topology/pull_up%26pull_down.md)
 - チャージポンプ
   - コンデンサとスイッチング素子を用いて様々な電圧を出力する回路
   - ブートストラップ
@@ -560,6 +560,8 @@
   - 差動増幅回路
     - 入力された二つの信号の電位差を増幅する回路
     - シャント抵抗式の電流センサなどに用いられる
+
+### 電力系
 - スイッチング電源
   - MOSFETなどの半導体スイッチング素子を高速でONOFFさせることによって電力を変換する回路
   - 降圧チョッパ
@@ -569,6 +571,15 @@
   - 絶縁DCDC
     - 入力と出力を、GNDも含めて分けることができる回路
     - モジュールとして手軽に扱えるようになっているパーツがあるのでそれを使うのが吉
+- ロードスイッチ
+  - MOSFET等を使用する電源をONOFFするような回路
+  - ハイサイドスイッチ
+    - 電源のプラス側を遮断するような回路
+    - 一般的にPch-MOSFETが使用される
+  - ローサイドスイッチ
+    - 電源のマイナス側（GND）を遮断するような回路
+    - 一般的にNch-MOSFETが使用される
+    - MOSFETのON抵抗によってGNDが浮く可能性などの危険性があるため基本的には非推奨
 
 </div></details>
 
