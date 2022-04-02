@@ -10,7 +10,7 @@ DCバイアスとはそもそも何かというと、部品に印加されてい
 ## セラミックコンデンサの場合  
 
 セラミックコンデンサにDCバイアスが掛かっている場合、コンデンサの容量が大幅に低下する危険性があります。  
-![DC_bias_example](images/20121015-p1_0001.png)
+![DC_bias_example](images/20121015-p1_0001.png)  
 [引用元(村田製作所)](https://article.murata.com/ja-jp/article/voltage-characteristics-of-electrostatic-capacitance)  
 上のグラフを見てもらえればわかるように、コンデンサによっては80%程度も容量が減少してしまいます。ちなみにMLCCが積層セラミックコンデンサです。  
 DCバイアスによってどれくらい容量が変化するかは、C0G,X5R,Y5Vなどのコンデンサの種類を表す記号からある程度予測することができます。  
