@@ -115,7 +115,7 @@
 ### 非反転加算回路  
 
 ![adder](images/adder.png)  
-<img src="https://latex.codecogs.com/svg.image?R_{1}=R_{2}=R_{3}=R_{4}=...=R_{N}" />として、
+<img src="https://latex.codecogs.com/svg.image?R_{1}=R_{2}=R_{3}=R_{4}=...=R_{N}=R" />として、
 
 <img src="https://latex.codecogs.com/svg.image?V_{OUT}=\frac{R/(N-1)}{R&plus;R/(N-1)}(1&plus;\frac{R_{a}}{R_{b}})(V_{in1}&plus;V_{in2}&plus;V_{in3}&plus;V_{in4}&plus;...&plus;V_{inN})" />  
 
