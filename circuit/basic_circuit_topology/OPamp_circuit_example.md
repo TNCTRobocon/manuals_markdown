@@ -10,14 +10,14 @@
 ではこの部品はどのような動作をするのでしょうか。  答えは簡単、反転入力と非反転入力の間の電位差を増幅するだけです。  
 
 式で表すとこんな感じ。  
-```math
-V_{out} = A(V_{IN+} - V_{IN-})
-```  
+
+<img src="https://latex.codecogs.com/svg.image?V_{out}&space;=&space;A(V_{IN&plus;}&space;-&space;V_{IN-})" />  
+
 なお、  
 
-- $V_{IN+}$ : 非反転入力の電位
-- $V_{IN-}$ : 反転入力の電位
-- $A$ : オープンループゲイン（理想的には無限大）  
+- <img src="https://latex.codecogs.com/svg.image?V_{IN&plus;}" /> : 非反転入力の電位
+- <img src="https://latex.codecogs.com/svg.image?V_{IN-}" /> : 反転入力の電位
+- <img src="https://latex.codecogs.com/svg.image?A" /> : オープンループゲイン（理想的には無限大）  
 
 です。  
 
@@ -34,21 +34,21 @@ V_{out} = A(V_{IN+} - V_{IN-})
 ![non-inv-amp](images/non-inv_amp.png)  
 オペアンプの出力がR1とR2によって分圧されて反転入力端子に入っていますね。  
 ではまず、この回路において$V_{IN-}$はどのような電圧になるのでしょうか。分圧則より  
-```math
-V_{IN-} = \frac{R_{2}}{R_{1}+R_{2}}V_{OUT}
-```  
+
+<img src="https://latex.codecogs.com/svg.image?V_{IN-}&space;=&space;\frac{R_{2}}{R_{1}&plus;R_{2}}V_{OUT}" />  
+
 となりますね。  
 さて、ここで非反転入力端子に$V_{IN+}$が入力されているとします。$V_{OUT}$はどんな電圧になるでしょうか。  
 ここで、先ほど述べたイマジナリーショートの**非反転入力と反転入力の電位が同じになるようになる**という考えを持ってきます。  
 つまり$V_{IN+} = V_{IN-}$になるということですね。  
 で、$V_{IN-}$は先ほどすでに求めたので、代入してみると  
-```math
-V_{IN+} = \frac{R_{2}}{R_{1}+R_{2}}V_{OUT}
-```  
+
+<img src="https://latex.codecogs.com/svg.image?V_{IN&plus;}&space;=&space;\frac{R_{2}}{R_{1}&plus;R_{2}}V_{OUT}" />  
+
 整理して
-```math
-V_{OUT} = (1+\frac{R_{1}}{R_{2}})V_{IN+}
-```  
+
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;(1&plus;\frac{R_{1}}{R_{2}})V_{IN&plus;}" />
+
 となります。なんとなく分かったでしょうか。こんな具合にオペアンプは負帰還とイマジナリーショートによって入力を増幅することができます。
 
 ## よくある回路例  
@@ -58,49 +58,46 @@ V_{OUT} = (1+\frac{R_{1}}{R_{2}})V_{IN+}
 ### 非反転増幅回路  
 
 ![non-inv-amp](images/non-inv_amp.png)  
-```math
-V_{OUT} = (1+\frac{R_{1}}{R_{2}})V_{IN}
-```  
+
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;(1&plus;\frac{R_{1}}{R_{2}})V_{IN&plus;}" />  
 
 さっき上で紹介した回路ですね。微小な電圧を増幅する時にどうぞ。
 
 ### 反転増幅回路  
 
-![inv-amp](images/inv_amp.png)  
-```math
-V_{OUT} = -\frac{R_{2}}{R_{1}}V_{IN}
-```  
+![inv-amp](images/inv_amp.png)   
+
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;-\frac{R_{2}}{R_{1}}V_{IN}" />  
 
 今度は出力が反転する回路です。正負電源を使っていないと負電圧は当然出力できないので気を付けましょう。
 
 ### ボルテージフォロワ  
 
 ![voltage_follower](images/voltage_follower.png)  
-```math
-V_{OUT} = V_{IN}
-```  
+
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;V_{IN}" />
 
 ボルテージフォロワは入力電圧をそのまま出力する回路です。意味ないやんけって思われるかもしれませんが、オペアンプの入力インピーダンスは非常に高いため、高インピーダンスな電圧源（＝あまり電流を出力できないセンサーとか）をマイコンなど他の機器に接続する時などに間に挟んだりします。
 
 ### 差動増幅回路  
 
 ![difference_amp](images/difference_amp.png)  
-```math
-V_{OUT} = \frac{R_{1}+R_{2}}{R_{1}}\frac{R_{4}}{R_{3}+R_{4}}V_{IN+}-\frac{R_{2}}{R_{1}}V_{IN-}
-```  
-んー長い。というわけで$R_{1} = R_{3},R_{2} = R_{4}$としまして
-```math
-V_{OUT} = \frac{R_{2}}{R_{1}}(V_{IN+}-V_{IN-})
-```  
+
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;\frac{R_{1}&plus;R_{2}}{R_{1}}\frac{R_{4}}{R_{3}&plus;R_{4}}V_{IN&plus;}-\frac{R_{2}}{R_{1}}V_{IN-}" />  
+
+
+んー長い。というわけで<img src="https://latex.codecogs.com/svg.image?R_{1}&space;=&space;R_{3},R_{2}&space;=&space;R_{4}" />としまして  
+
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;\frac{R_{2}}{R_{1}}(V_{IN&plus;}-V_{IN-})" />
 
 こちらは二つの入力電圧の差を増幅する回路です。シャント抵抗などを使用するハイサイド電流アンプや、コモンモードノイズが発生するような状況で使用できます。
 
 ### 積分回路  
 
 ![integral_circuit](images/integral_circuit.png)  
-```math
-V_{OUT} = -\frac{1}{RC}\int V_{IN}dt  
-```  
+
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;-\frac{1}{RC}\int&space;V_{IN}dt" />  
+
 入力を積分して反転出力する回路です。  
 
 ちなみに非反転型もあります。  
@@ -110,18 +107,17 @@ V_{OUT} = -\frac{1}{RC}\int V_{IN}dt
 ### 微分回路  
 
 ![differential_circuit](images/differential_circuit.png)  
-```math
-V_{OUT} = -RC\frac{dV_{IN}}{dt}
-```  
+
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;-RC\frac{dV_{IN}}{dt}" />  
+
 入力を微分して反転出力する回路です。  
 
 ### 加算回路  
 
 ![adder](images/adder.png)  
-$R_{1} = R_{2} = R_{3} = R_{4} = …= R_{N}$として、
-```math
-V_{OUT} = \frac{R/(N-1)}{R+R/(N-1)}(V_{in1}+V_{in2}+V_{in3}+V_{in4}+...+V_{inN})
-```  
+<img src="https://latex.codecogs.com/svg.image?R_{1}=R_{2}=R_{3}=R_{4}=...=R_{N}" />として、
+
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;\frac{R/(N-1)}{R&plus;R/(N-1)}(V_{in1}&plus;V_{in2}&plus;V_{in3}&plus;V_{in4}&plus;...&plus;V_{inN})" />  
 
 ## ちょこっと応用
 
