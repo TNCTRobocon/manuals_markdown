@@ -11,7 +11,7 @@
 
 式で表すとこんな感じ。  
 
-<img src="https://latex.codecogs.com/svg.image?V_{out}&space;=&space;A(V_{IN&plus;}&space;-&space;V_{IN-})" />  
+<img src="https://latex.codecogs.com/svg.image?V_{out}=A(V_{IN&plus;}-V_{IN-})" />  
 
 なお、  
 
@@ -75,7 +75,7 @@
 
 ![voltage_follower](images/voltage_follower.png)  
 
-<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;V_{IN}" />
+<img src="https://latex.codecogs.com/svg.image?V_{out}=V_{IN}" />
 
 ボルテージフォロワは入力電圧をそのまま出力する回路です。意味ないやんけって思われるかもしれませんが、オペアンプの入力インピーダンスは非常に高いため、高インピーダンスな電圧源（＝あまり電流を出力できないセンサーとか）をマイコンなど他の機器に接続する時などに間に挟んだりします。
 
@@ -88,7 +88,7 @@
 
 んー長い。というわけで<img src="https://latex.codecogs.com/svg.image?R_{1}&space;=&space;R_{3},R_{2}&space;=&space;R_{4}" />としまして  
 
-<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;\frac{R_{2}}{R_{1}}(V_{IN&plus;}-V_{IN-})" />
+<img src="https://latex.codecogs.com/svg.image?V_{out}=\frac{R_{2}}{R_{1}}(V_{IN&plus;}-V_{IN-})" />
 
 こちらは二つの入力電圧の差を増幅する回路です。シャント抵抗などを使用するハイサイド電流アンプや、コモンモードノイズが発生するような状況で使用できます。
 
