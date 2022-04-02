@@ -21,7 +21,7 @@
 
 です。  
 
-簡単ですね。でもこれだとただのコンパレータと何が違うんやんけって何ると思います。  
+簡単ですね。でもこれだとただのコンパレータと何が違うんやんけってなると思います。  
 オペアンプの真髄は**負帰還**をかけられる、という点にあります。  
 つまり出力された信号からフィートバック回路を通して入力に様々なゲインをかけられますよ。っていうことです。  
 
@@ -33,15 +33,15 @@
 次のような回路を考えます。  
 ![non-inv-amp](images/non-inv_amp.png)  
 オペアンプの出力がR1とR2によって分圧されて反転入力端子に入っていますね。  
-ではまず、この回路において$V_{IN-}$はどのような電圧になるのでしょうか。分圧則より  
+ではまず、この回路において<img src="https://latex.codecogs.com/svg.image?V_{IN-}"/>はどのような電圧になるのでしょうか。分圧則より  
 
 <img src="https://latex.codecogs.com/svg.image?V_{IN-}&space;=&space;\frac{R_{2}}{R_{1}&plus;R_{2}}V_{OUT}" />  
 
 となりますね。  
-さて、ここで非反転入力端子に$V_{IN+}$が入力されているとします。$V_{OUT}$はどんな電圧になるでしょうか。  
+さて、ここで非反転入力端子に<img src="https://latex.codecogs.com/svg.image?V_{IN&plus;}" />が入力されているとします。<img src="https://latex.codecogs.com/svg.image?V_{OUT}"/>はどんな電圧になるでしょうか。  
 ここで、先ほど述べたイマジナリーショートの**非反転入力と反転入力の電位が同じになるようになる**という考えを持ってきます。  
-つまり$V_{IN+} = V_{IN-}$になるということですね。  
-で、$V_{IN-}$は先ほどすでに求めたので、代入してみると  
+つまり<img src="https://latex.codecogs.com/svg.image?V_{IN&plus;}=V_{IN-}" />になるということですね。  
+で、<img src="https://latex.codecogs.com/svg.image?V_{IN-}"/>は先ほどすでに求めたので、代入してみると  
 
 <img src="https://latex.codecogs.com/svg.image?V_{IN&plus;}&space;=&space;\frac{R_{2}}{R_{1}&plus;R_{2}}V_{OUT}" />  
 
@@ -59,7 +59,7 @@
 
 ![non-inv-amp](images/non-inv_amp.png)  
 
-<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;(1&plus;\frac{R_{1}}{R_{2}})V_{IN&plus;}" />  
+<img src="https://latex.codecogs.com/svg.image?V_{OUT}&space;=&space;(1&plus;\frac{R_{1}}{R_{2}})V_{IN}" />  
 
 さっき上で紹介した回路ですね。微小な電圧を増幅する時にどうぞ。
 
