@@ -362,7 +362,7 @@
 - [SPI](micro_controller/SPI_introduction.md)
   - 4線式の同期通信
   - I2Cより早い
-- UART
+- [UART](micro_controller/UART_introduction.md)
   - 2線式の非同期通信、をする**集積回路**
   - ロボAで最もよく使われる通信形式
   - 同期通信できるようにしたUSARTというものもある
