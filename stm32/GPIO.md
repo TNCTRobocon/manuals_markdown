@@ -547,10 +547,15 @@ BS(おそらく`Bit Set`)を1にするとそのレジスタに対応するODRの
 
 - AFR
 
-`GPIO alternate function low register`
+`GPIO alternate function low register`と`GPIO alternate function high register`の総称
 
-変わりの関数を見つけるために必要なのかな  
-使ったことをみたことないからパスで(使いたかったら調べてね)
+![afr_low.png](imgs/afrl.png)
+
+![afr_high.png](imgs/afrh.png)
+
+これはI/O以外の機能を使うときに設定する必要がある(uartとかSPIとか)
+
+使うときにまた使い方を説明する
 
 これでIO系のレジスタの説明は以上
 
@@ -563,14 +568,13 @@ BS(おそらく`Bit Set`)を1にするとそのレジスタに対応するODRの
 ようやく光らせることができるようですね(実装見てない人には短かったと思うが)
 
 まずはつけることから
+
 ```C++
 HAL_GPIO_WritePin(Out_GPIO_Port, Out_Pin, GPIO_PIN_SET);//つける
 HAL_GPIO_WritePin(Out_GPIO_Port, Out_Pin, GPIO_PIN_RESET);//消す
 ```
 
-ちなみにこれはまとめてつけたり消したりできて
-
-同じポートなら別のピン番号を同時につけたり消したりできる
+ちなみにこれはまとめてつけたり消したりできて、同じポートなら別のピンを同時につけたり消したりできる
 
 たとえばPA5とPA8を同時につけたければ
 
@@ -578,8 +582,125 @@ HAL_GPIO_WritePin(Out_GPIO_Port, Out_Pin, GPIO_PIN_RESET);//消す
 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5|GPIO_PIN_8);
 ```
 
-のようにまとめて設定できる
-
+のようにまとめて設定できる  
 消すときも同様にすれば良い
 
-ただし、別のポートではこの方法は使えないので注意(実装見てる人は知ってるとは思うけど`GPIOA`とか`GPIOB`がポインタだからだね)
+光るか消えるかを切り替える関数もあって
+
+```c++
+HAL_GPIO_TogglePin(Out_GPIO_Port, Out_Pin, GPIO_PIN_RESET);
+```
+
+ただし、ポートではこの方法は使えないので注意(実装見てる人は知ってるとは思うけど`GPIOA`とか`GPIOB`がポインタだからだね)
+
+<details><summary>じ、実装!?</summary><dev>
+
+
+```c++
+void HAL_GPIO_WritePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState PinState)
+{
+  /* Check the parameters */
+  assert_param(IS_GPIO_PIN(GPIO_Pin));
+  assert_param(IS_GPIO_PIN_ACTION(PinState));
+
+  if(PinState != GPIO_PIN_RESET)
+  {
+    GPIOx->BSRR = GPIO_Pin;
+  }
+  else
+  {
+    GPIOx->BSRR = (uint32_t)GPIO_Pin << 16U;
+  }
+}
+```
+
+`BSRR`に書き込んでるのか……
+
+ほんで`GPIO_Pin`のところは実装を見て知ってる人もいるだろうがピン一つにつき1bitが割り振られているのでorを使えばまとめて設定できるのはわかるだろう
+
+あとは`assert_param`でそれを使えるか確かめてるだけだね
+
+一応assert_paramの実装置いとくね
+
+```c++
+#define assert_param(expr) ((void)0U)
+```
+
+ただの飾りじゃないかと思ったそこの君、大正解だ  
+ところが`USE_FULL_ASSERT`というマクロが定義されたら`assert_param`は
+
+```c++
+#define assert_param(expr) ((expr) ? (void)0U : assert_failed((uint8_t *)__FILE__, __LINE__))
+```
+
+こうなる  
+ようやくエラーを吐いてくれるようになるみたいだ
+
+かわいいね
+
+</dev></details>
+
+## 最終的なLチカのコードは
+
+```c++
+  /* USER CODE BEGIN WHILE */
+  while (1){
+	  HAL_GPIO_WritePin(Out_GPIO_Port, Out_Pin, GPIO_PIN_SET);
+	  HAL_Delay(100);
+
+	  HAL_GPIO_WritePin(Out_GPIO_Port, Out_Pin, GPIO_PIN_RESET);/
+	  HAL_Delay(100);
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+```
+
+または
+
+```c++
+  /* USER CODE BEGIN WHILE */
+  while (1){
+	  HAL_GPIO_TogglePin(Out_GPIO_Port, Out_Pin);
+	  HAL_Delay(100);
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+  }
+  /* USER CODE END 3 */
+```
+
+<details><summary>レジスタを書いてやれだなんてなんて横暴な！</summary><dev>
+
+ということではい
+
+```c++
+#include "main.h"
+
+int main(){
+	uint32_t timer_start = HAL_GetTick();
+	constexpr uint32_t wait_time = 100 + uwTickFreq;
+
+    RCC->AHB1ENR |= RCC_AHB1ENR_GPIOAEN;
+
+    GPIOA->MODER &= ~GPIO_MODER_MODER12_Msk;
+    GPIOA->MODER |= (MODE_OUTPUT << GPIO_MODER_MODER12_Pos);
+
+    while(1){
+        GPIOA->ODR ^= GPIO_ODR_OD12;
+		while(wait_time > HAL_GetTick - timer_start);
+    }
+    return 0;
+}
+```
+
+RCCはクロックの供給に関してなのでここでは扱いません  
+
+
+実装見学組もお疲れ様でした
+
+</dev></details>
+
+2022/04/09
+written by 西永
