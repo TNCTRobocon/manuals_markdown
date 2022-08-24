@@ -15,12 +15,11 @@
 - スイッチをONにし、コイルに電流を流す（エネルギーを蓄える）
 ![1](images/step-up1.png)  
 
->NOTE
+>NOTE  
 >コイルの持つエネルギーは  
->```math
->K=\frac{1}{2}HI^2
->```
+>![energy](https://latex.codecogs.com/svg.image?K=\frac{1}{2}HI^2)  
 >として表される  
+
 
 - スイッチをOFFにする  
 ![2](images/step-up2.png)  
