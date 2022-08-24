@@ -69,7 +69,7 @@ arrayクラスでは=によって代入が可能
 ただし、全要素のコピーなのでポインタでの受け渡しよりも時間がかかる
 計算量はO(n)[^1]
 
-[^1]: 計算量の詳しい話については../../others/computational_comlexity/computational_complexity.mdを参照
+[^1]: 計算量の詳しい話については../../others/computational_complexity/computational_complexity.mdを参照
 
 ## 各要素へのアクセス
 
@@ -86,10 +86,10 @@ arr[0]  = 10;
 ## 二次元配列
 
 ```c++
-std::array<std::array<int, 3>, 2> arr_2d{
+std::array<std::array<int, 3>, 2> arr_2d{{
     {1, 2, 3},
     {4, 5, 6},
-};
+}};
 
 //指定方法
 arr_2d[2][1];
