@@ -25,4 +25,5 @@
 ### ヒントになりそうな記事たち（随時更新）  
 [昇圧チョッパの基本](basic_circuit_topology/step-up-converter.md)  
 [様々な昇圧回路](basic_circuit_topology/oscillator.md)  
-[555による倍圧回路（もはや答えなのであきらめた人用）](basic_circuit_topology/voltage_doubler.md)
+[555による倍圧回路（もはや答えなのであきらめた人用）](basic_circuit_topology/voltage_doubler.md)  
+[555による昇圧チョッパその１](basic_circuit_topology/step-up-converter_by_555_No1.md)  
