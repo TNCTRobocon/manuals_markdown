@@ -10,7 +10,7 @@ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo ap
 sudo apt update
 sudo apt install ros-noetic-desktop-full # 何種類かあるのであとで説明
 
-sudo apt-get install python3-rosdep
+sudo apt install python3-rosdep
 sudo rosdep init
 rosdep update
 
@@ -18,8 +18,8 @@ echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
 source ~/.bashrc
 source /opt/ros/noetic/setup.bash
 
-sudo apt-get -y install python3-rosinstall
-sudo apt-get install -y python3-catkin-tools # catkin buildが使えるようになる。後述
+sudo apt -y install python3-rosinstall
+sudo apt install -y python3-catkin-tools # catkin buildが使えるようになる。後述
 ```
 
 基本的に上から実行していけば問題なくインストールできる
@@ -61,7 +61,7 @@ ubuntuなどを使っていれば違和感がないと思う
 ### 依存関係の解決
 
 ```sh
-sudo apt-get install python-rosdep
+sudo apt install python-rosdep
 sudo rosdep init
 rosdep update
 ```
@@ -84,8 +84,8 @@ rosのパスをbash(コマンドライン)で起動時に通すスクリプト
 ### 周辺ツールのインストール
 
 ```sh
-sudo apt-get -y install python3-rosinstall
-sudo apt-get install -y python3-catkin-tools
+sudo apt -y install python3-rosinstall
+sudo apt install -y python3-catkin-tools
 ```
 
 ros関連のライブラリがインストールされる  
