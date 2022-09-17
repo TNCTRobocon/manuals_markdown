@@ -84,7 +84,7 @@ ip = &num;
 fp = reinterpret_cast<float*>(ip);
 ```
 
-## dynamc_cast
+## dynamic_cast
 
 ### アップキャストとダウンキャスト
 
@@ -95,7 +95,7 @@ class base{
 
 };
 
-class derivide : public base{
+class derived : public base{
 
 };
 

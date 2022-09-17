@@ -56,7 +56,7 @@ class derived_class : public base_class{
 
 `public`のところに関してはあと`private` と `protected`の二種類がある
 
-|private|protected|puvlic|
+|private|protected|public|
 |-|-|-|
 |派生クラスを通じて基底クラスにアクセスできなくなる|派生クラスを通じて継承したクラスからのみアクセスできる|派生クラスを通じて基底クラスにアクセスない|
 
