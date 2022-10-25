@@ -132,4 +132,4 @@ auto itr = vec.begin();//これでint型のvectorクラスのイテレータの�
 ```
 
 2021/12/05
-writen by 西永
+written by 西永

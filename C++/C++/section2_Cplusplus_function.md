@@ -11,11 +11,11 @@ C++では引数が異なれば同じ名前の関数をいくつも定義する�
 ```C++
 #include<iostream>
 
-int plus(int i, int j){
+int sum(int i, int j){
     return i + j;
 }
 
-float plus(float i, float j){
+float sum(float i, float j){
     return i + j;
 }
 
@@ -27,8 +27,8 @@ int main(){
     float num3 = 1.3;
     float num4 = 4.3;
 
-    cout << plus(num1, num2) << endl;
-    cout << plus(num1, num2) << endl;
+    cout << sum(num1, num2) << endl;
+    cout << sum(num1, num2) << endl;
 
     return 0;
 }

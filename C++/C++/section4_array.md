@@ -6,7 +6,7 @@ C言語ではデータ型をまとめて扱うときに配列を使ったと思�
 C++でも配列は使えるがそれよりも便利に扱えるコンテナクラス(コンテナ型)を利用することが多い
 
 >コンテナクラスとは
->>STL(Standerd Template Library)と呼ばれるものの一部  
+>>STL(Standard Template Library)と呼ばれるものの一部  
 いずれ説明する
 
 そして**arrayクラス**はコンテナ型の一つであり、配列よりも便利な機能が用意されている  
@@ -69,7 +69,7 @@ arrayクラスでは=によって代入が可能
 ただし、全要素のコピーなのでポインタでの受け渡しよりも時間がかかる
 計算量はO(n)[^1]
 
-[^1]: 計算量の詳しい話については../../others/computational_comlexity/computational_complexity.mdを参照
+[^1]: 計算量の詳しい話については../../others/computational_complexity/computational_complexity.mdを参照
 
 ## 各要素へのアクセス
 
@@ -86,10 +86,10 @@ arr[0]  = 10;
 ## 二次元配列
 
 ```c++
-std::array<std::array<int, 3>, 2> arr_2d{
+std::array<std::array<int, 3>, 2> arr_2d{{
     {1, 2, 3},
     {4, 5, 6},
-};
+}};
 
 //指定方法
 arr_2d[2][1];
@@ -167,4 +167,4 @@ std::swap(arr1, arr2);//標準関数
 これもalgorithmをインクルードする必要がある
 
 2021/12/2  
-writen by 西永
+written by 西永

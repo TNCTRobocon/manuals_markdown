@@ -53,7 +53,7 @@ arrayと同じ
 arrayと同じく全要素のコピーなのでポインタでの受け渡しよりも時間がかかる
 計算量はO(n)[^1]
 
-[^1]: 計算量の詳しい話../../others/computational_comlexity/computational_complexity.mdを参照
+[^1]: 計算量の詳しい話../../others/computational_complexity/computational_complexity.mdを参照
 
 ## 各要素へのアクセス
 
@@ -208,10 +208,10 @@ std::vector<int> vec = {1, 2, 3};
 vec.resize(5);//1, 2, 3, 0, 0
 
 //要素の縮小
-vec.siaze(2);//1,2
+vec.resize(2);//1,2
 
 //要素を拡張して指定した値で埋める
-vec.resze(5, 10);//1, 2, 10, 10, 10
+vec.resize(5, 10);//1, 2, 10, 10, 10
 ```
 
 要素数を拡張したら要素は指定しなければ0で埋められる

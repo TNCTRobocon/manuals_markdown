@@ -129,12 +129,12 @@ class base{
 
 };
 
-class derivide : public base{
+class derived : public base{
 
 };
 
 int main(){
-    base *b = new derivide();
+    base *b = new derived();
     delete b;
 }
 ```
