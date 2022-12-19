@@ -80,7 +80,7 @@ vec.at(0)  = 10;
 ## 二次元配列
 
 ```c++
-std::vector<std::vector<int, 3>, 2> vec_2d{
+std::vector<std::vector<int>> vec_2d{
     {1, 2, 3},
     {4, 5, 6},
 };
