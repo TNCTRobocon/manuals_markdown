@@ -14,10 +14,8 @@
 | [digikey](https://www.digikey.jp/?utm_adgroup=General&utm_source=google&utm_medium=cpc&utm_campaign=JP_Brand_Digi-Key&utm_term=digikey&productid=&gclid=CjwKCAiA3pugBhAwEiwAWFzwdfn3W0GEfh9vkKJQQoVIdY_bS7G2jb1RpwPvUa9n4hgVswtpncY4whoCwhgQAvD_BwE) | △ | ☆ | 〇 | 謎 | マルツを介して購入 |
 | [corestaff](https://www.zaikostore.com/zaikostore/?utm_source=google&utm_medium=cpc&gclid=CjwKCAiA3pugBhAwEiwAWFzwdXXZXSlEh0rfwc9iuwD_qxFWt8xqbOvD17Wqx_zRA4d2RJUwUBTbVBoC5fIQAvD_BwE) | 〇 | 〇 | △ | 5000未満650円 | mouser代理店 |
 | [モノタロウ](https://www.monotaro.com/) | 〇 | ☆ | 〇 | 3500未満500円 | XAコネクタ安い |
+
 （校費△は代理店を介して購入）
-
-
-まずは、ロボコンの予算の大部分を締める校費予算を使えるお店を紹介します。基本的にはこれらの店で買えるものを使いましょう。  
 
 ### 共立エレショップ  
 
@@ -92,6 +90,16 @@ digikeyと双璧を成す（と勝手に思っている）アメリカンな大�
 #### ここで買うべきもの  
 - 表面実装部品の大人買い
 - mouserと同じ
+
+### corestaff  
+
+[リンク](https://www.zaikostore.com/zaikostore/?utm_source=google&utm_medium=cpc&gclid=CjwKCAiA3pugBhAwEiwAWFzwdXXZXSlEh0rfwc9iuwD_qxFWt8xqbOvD17Wqx_zRA4d2RJUwUBTbVBoC5fIQAvD_BwE)  
+
+うーん、mouserの代理店ということ以外特に特徴がない…。
+rohmからの部品提供はここから買うことになるので覚えておいて損はないだろう。  
+
+#### ここで買うべきもの  
+- 特にない（無慈悲）
 
 ### モノタロウ  
 
