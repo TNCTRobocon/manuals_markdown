@@ -83,7 +83,7 @@ digikeyの代理店ですね。マルツ自体の品ぞろえは並ですが、d
 
 [リンク](https://www.digikey.jp/?utm_adgroup=General&utm_source=google&utm_medium=cpc&utm_campaign=JP_Brand_Digi-Key&utm_term=digikey&productid=&gclid=CjwKCAiA3pugBhAwEiwAWFzwdfn3W0GEfh9vkKJQQoVIdY_bS7G2jb1RpwPvUa9n4hgVswtpncY4whoCwhgQAvD_BwE)  
 
-digikeyと双璧を成す（と勝手に思っている）アメリカンな大手商社。
+mouserと双璧を成す（と勝手に思っている）アメリカンな大手商社。
 こちらも大抵の部品は手に入る。
 マルツを介して購入することになる。  
 
