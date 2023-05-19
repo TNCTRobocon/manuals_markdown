@@ -43,3 +43,5 @@ gcc version 6.3.0 (MinGW.org GCC-6.3.0-1)
 
 2023/04/17 written by Kohki S.  
 ひとこと 長すぎワロタ
+
+2023/05/15 : WindowsにおけるGCC導入について修正
