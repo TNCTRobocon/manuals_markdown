@@ -27,4 +27,4 @@
 [様々な昇圧回路](basic_circuit_topology/oscillator.md)  
 [555による倍圧回路（もはや答えなのであきらめた人用）](basic_circuit_topology/voltage_doubler.md)  
 [555による昇圧チョッパその1](basic_circuit_topology/step-up-converter_by_555_No1.md)  
-[555による昇圧チョッパその2](basic_circuit_topology/step-up-converter_by_555_No2.md)  
+[555による昇圧チョッパその2](basic_circuit_topology/step-up-converter_by_555_no2.md)  
