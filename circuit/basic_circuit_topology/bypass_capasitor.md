@@ -28,4 +28,12 @@
 
 ![saspention](images/pass_cap_image.png)  
 
-コンデンサの動作のイメージとしては[この動画](https://www.youtube.com/watch?v=T8mcn5PVLRc)が分かりやすいと思います。
+コンデンサの動作のイメージとしては[この動画](https://www.youtube.com/watch?v=T8mcn5PVLRc)が分かりやすいと思います。  
+
+## さらにノイズ耐性をあげたい場合  
+
+VDDAピンやVrefピンなど、普通の電源ピン以上の精度が必要とされる場面ではたんなるバイパスコンデンサ以上のものが必要になる場合があります。  
+
+そんなときはこんな風にフェライトビーズを入れてあげましょう。  
+![ferrite](images/ferrite_beads.png)  
+要は[LCローパスフィルタを構成](Low-pass-filter_circuit.md)するっていうことですね。  
