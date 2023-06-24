@@ -38,7 +38,7 @@ GCCは、OSによってダウンロード方法が異なります。
    次のコマンドでインストールします。  
    **build-essential**は、GCCに加えてC++の実行に必要なG++もろもろを導入してくれます。
    ```sh
-   suso apt build-essential cmake
+   suso apt install build-essential cmake
    ```
 
    依存関係のエラーが出た場合は、ダウングレードが有効らしいです。　　
@@ -62,3 +62,5 @@ gcc version 6.3.0 (MinGW.org GCC-6.3.0-1)
 
 2023/05/15 : Windows,LinuxにおけるGCC導入について修正  
 なんで俺のUbuntuに最初からGCCがいたんだろう...
+
+2023/06/15 : aptコマンドの誤りを修正
