@@ -1,7 +1,8 @@
 # 環境を構築しよう
 ## STMの開発環境
-STM32CubeIDEと呼ばれるSTMの開発環境は、STMicroelectronics社から提供されています。
-アカウント登録が必要なので、メールアドレスを用意してください。
+STM32CubeIDEと呼ばれるSTMの開発環境は、STMicroelectronics社から提供されています。  
+アカウント登録が必要なので、メールアドレスを用意してください。  
+
 手順
 1. [公式サイト](https://www.st.com/ja/development-tools/stm32cubeide.html)にアクセスし、「ソフトウェア入手」をクリック
 2. OSにあった「最新バージョンを取得」をクリック(わからなかったら人に聞こう)
