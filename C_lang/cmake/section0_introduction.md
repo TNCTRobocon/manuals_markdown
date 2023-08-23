@@ -99,7 +99,7 @@ void hello(){
 
 となる
 
-これでgitを使おうとすると大変だろうなということが伝わるだろうか
+これでは管理が大変だろうなということが伝わるだろうか
 
 そうじゃなくてもどれがソースファイルなのかがひとめでわかりにくくなってしまっている
 
@@ -123,14 +123,14 @@ add_executable(main main.cpp hello.cpp)
 
 ```sh
 > mkdir build
-
 > cd build
-
 > cmake -S . -B build
-
 > cd build
-
 > make
+
+# 次のようにビルドすることも多い
+> mkdir -p build; cd build
+> cmake ..&&make -j
 ```
 
 ```markdown
