@@ -215,7 +215,16 @@ int main() {
 
 ```
 
+出力は
+
+```markdown
+in B
+in B
+```
+
 `static_cast`や`dynamic_cast`のスマートポインタバージョンだと思えば良いだろう
+
+>ここで注意なのだが、`shared_ptr<T>(static_cast<T*>(r.get()))`は未定義動作となるので使用しないようにすること
 
 2022/03/31  
 written by 西永
