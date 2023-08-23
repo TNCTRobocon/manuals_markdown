@@ -1,0 +1,78 @@
+Source:,,,,,,
+Date:,2022/8/3 23:23,,,,,
+Tool:,Eeschema (6.0.1),,,,,
+Generator:,C:\Program Files\KiCad6\6.0\bin\scripting\plugins/bom_csv_grouped_by_value.py,,,,,
+Component Count:,44,,,,,
+,,,,,,
+Individual Components:,,,,,,
+,,,,,,
+Item,Qty,Reference(s),Value,LibPart,Footprint,Datasheet
+,,C1,0.1u,Device:C,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~
+,,C2,0.1u,Device:C,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~
+,,C3,0.1u,Device:C,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~
+,,C4,4.7u,Device:C,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,~
+,,C5,4.7u,Device:C,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,~
+,,C6,0.1u,Device:C,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~
+,,C7,4.7u,Device:C,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,~
+,,C8,0.1u,Device:C,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~
+,,C9,0.1u,Device:C,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~
+,,CAN1,Conn_02x03_Odd_Even,Connector_Generic:Conn_02x03_Odd_Even,Connector_IDC:IDC-Header_2x03_P2.54mm_Vertical,~
+,,CAN_JMP1,Conn_01x02,Connector_Generic:Conn_01x02,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,~
+,,D1,LED,Device:LED,LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder,~
+,,D2,LED,Device:LED,LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder,~
+,,ENC1,Conn_01x05,Connector_Generic:Conn_01x05,Robocon_Connector:XA_05_Horizontal,~
+,,ENC2,Conn_01x05,Connector_Generic:Conn_01x05,Robocon_Connector:XA_05_Horizontal,~
+,,ENC3,Conn_01x05,Connector_Generic:Conn_01x05,Robocon_Connector:XA_05_Horizontal,~
+,,HOLE1,Conn_01x01_Female,Connector:Conn_01x01_Female,MountingHole:MountingHole_3.2mm_M3_Pad,~
+,,HOLE2,Conn_01x01_Female,Connector:Conn_01x01_Female,MountingHole:MountingHole_3.2mm_M3_Pad,~
+,,HOLE3,Conn_01x01_Female,Connector:Conn_01x01_Female,MountingHole:MountingHole_3.2mm_M3_Pad,~
+,,HOLE4,Conn_01x01_Female,Connector:Conn_01x01_Female,MountingHole:MountingHole_3.2mm_M3_Pad,~
+,,J1,USB_B_Mini,Connector:USB_B_Mini,Connector_USB:USB_Micro-B_Amphenol_10104110_Horizontal,~
+,,R1,1k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R2,10k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R3,10k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R4,10k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R5,10k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R6,10k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R7,1k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R8,1k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R9,1k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R10,1k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R11,1k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R12,1k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R13,1k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R14,10k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,R15,120,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+,,RESET1,SW_Push,Switch:SW_Push,Robocon_Switch:KMR621NG,~
+,,SW1,SW_Coded,Switch:SW_Coded,Robocon_Switch:ROTARY_DIP,~
+,,SWD1,Conn_01x06,Connector_Generic:Conn_01x06,Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical,~
+,,U1,STM32F303K8Tx,MCU_ST_STM32F3:STM32F303K8Tx,Package_QFP:LQFP-32_7x7mm_P0.8mm,http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00092070.pdf
+,,U2,AZ1117H-ADJ,Regulator_Linear:AZ1117H-ADJ,Package_TO_SOT_SMD:SOT-223-3_TabPin2,https://www.diodes.com/assets/Datasheets/products_inactive_data/AZ1117.pdf
+,,U3,MCP2551-I-SN,Interface_CAN_LIN:MCP2551-I-SN,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,http://ww1.microchip.com/downloads/en/devicedoc/21667d.pdf
+,,U4,CH340E,Interface_USB:CH340E,Package_SO:MSOP-10_3x3mm_P0.5mm,https://www.mpja.com/download/35227cpdata.pdf
+,,Y1,16MHz,Device:Resonator,Crystal:Resonator_SMD_Murata_CSTxExxV-3Pin_3.0x1.1mm_HandSoldering,~
+,,,,,,
+,,,,,,
+,,,,,,
+Collated Components:,,,,,,
+,,,,,,
+Item,Qty,Reference(s),Value,LibPart,Footprint,Datasheet
+1,6,"C1, C2, C3, C6, C8, C9",0.1u,Device:C,Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,~
+2,3,"C4, C5, C7",4.7u,Device:C,Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,~
+3,1,CAN1,Conn_02x03_Odd_Even,Connector_Generic:Conn_02x03_Odd_Even,Connector_IDC:IDC-Header_2x03_P2.54mm_Vertical,~
+4,1,CAN_JMP1,Conn_01x02,Connector_Generic:Conn_01x02,Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical,~
+5,2,"D1, D2",LED,Device:LED,LED_SMD:LED_0603_1608Metric_Pad1.05x0.95mm_HandSolder,~
+6,3,"ENC1, ENC2, ENC3",Conn_01x05,Connector_Generic:Conn_01x05,Robocon_Connector:XA_05_Horizontal,~
+7,4,"HOLE1, HOLE2, HOLE3, HOLE4",Conn_01x01_Female,Connector:Conn_01x01_Female,MountingHole:MountingHole_3.2mm_M3_Pad,~
+8,1,J1,USB_B_Mini,Connector:USB_B_Mini,Connector_USB:USB_Micro-B_Amphenol_10104110_Horizontal,~
+9,8,"R1, R7, R8, R9, R10, R11, R12, R13",1k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+10,6,"R2, R3, R4, R5, R6, R14",10k,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+11,1,R15,120,Device:R,Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,~
+12,1,RESET1,SW_Push,Switch:SW_Push,Robocon_Switch:KMR621NG,~
+13,1,SW1,SW_Coded,Switch:SW_Coded,Robocon_Switch:ROTARY_DIP,~
+14,1,SWD1,Conn_01x06,Connector_Generic:Conn_01x06,Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical,~
+15,1,U1,STM32F303K8Tx,MCU_ST_STM32F3:STM32F303K8Tx,Package_QFP:LQFP-32_7x7mm_P0.8mm,http://www.st.com/st-web-ui/static/active/en/resource/technical/document/datasheet/DM00092070.pdf
+16,1,U2,AZ1117H-ADJ,Regulator_Linear:AZ1117H-ADJ,Package_TO_SOT_SMD:SOT-223-3_TabPin2,https://www.diodes.com/assets/Datasheets/products_inactive_data/AZ1117.pdf
+17,1,U3,MCP2551-I-SN,Interface_CAN_LIN:MCP2551-I-SN,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm,http://ww1.microchip.com/downloads/en/devicedoc/21667d.pdf
+18,1,U4,CH340E,Interface_USB:CH340E,Package_SO:MSOP-10_3x3mm_P0.5mm,https://www.mpja.com/download/35227cpdata.pdf
+19,1,Y1,16MHz,Device:Resonator,Crystal:Resonator_SMD_Murata_CSTxExxV-3Pin_3.0x1.1mm_HandSoldering,~
