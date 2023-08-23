@@ -91,7 +91,7 @@ lets_talk関数を見て何か思うところはないだろうか
 
 ただし、上記のような呼び出し方ができるのはポインタか参照の時のみなので注意
 
->参照はキャストされるのできちんとしたポリモーフィズムを実現できない
+>コピー代入はキャストされるのできちんとしたポリモーフィズムを実現できない
 
 これはスライシングと言い、避けるべきとされる
 
@@ -121,6 +121,39 @@ int main(){
 
 `override`を使わずに記述すると名前が見えなくなり、アクセスができなくなる  
 ポインタなどを使ってアクセス使用としても多様性はないのでせっかくのオブジェクト指向なのにもったいない
+
+```cpp
+#include<iostream>
+
+class human{
+public:
+    void talk() const {
+        std::cout << "hello" <<std::endl;
+    }
+};
+
+class japanese final : public human{
+public:
+    void talk() const {
+        std::cout << "こんにちは" << std::endl;
+    }
+};
+
+void lets_talk(human&Human){
+    Human.talk();
+}
+
+int main(){
+    human John;
+    japanese Taro;
+
+    John.talk();//hello
+    Taro.talk();//こんにちは
+
+    lets_talk(John);//hello
+    lets_talk(Taro);//hello
+}
+```
 
 ## 仮想関数とnew演算子
 
