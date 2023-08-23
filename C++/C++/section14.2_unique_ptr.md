@@ -1,7 +1,5 @@
 # unique_ptr
 
-`auto_ptr`の代わり
-
 ※C++11以降で使うことができる
 
 前回所有権についてやったのを覚えているだろうか  
@@ -89,7 +87,7 @@ for(int i = 0; i <= 5; i++){
 #include<cstdlib>
 
 struct deleter_malloc{
-     void operator()(int*i)const{
+     void operator()(int*i) const {
           free(i);
      }
 };

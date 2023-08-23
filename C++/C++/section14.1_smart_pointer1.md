@@ -19,16 +19,15 @@ void func(){
 
 ちなみにスマートポインタについても何種類かあって
 
-- auto_ptr
 - unique_ptr
 - shared_ptr
 - weak_ptr
 
-の参種類がある
+の3種類がある
 
-## auto_ptr
+## 所有権について
 
-※C++11からは非推奨
+※`unique_ptr`については`section14.2_unique_ptr.md`で詳細に説明する。今回はそういうものだと思ってほしい
 
 ```c++
 #include<memory>
@@ -47,8 +46,8 @@ public:
 };
 
 void func(){
-    my_class*mc = new my_class(1);
-    std::auto_ptr<my_class> mc2(new my_class(2));
+    my_class* mc1 = new my_class(1);
+    std::unique_ptr<my_class> mc2(new my_class(2));
 
     mc2->num;//普通のポインタと同じようにアクセスできる
 }
@@ -67,47 +66,45 @@ constructor2
 destructor2
 ```
 
-`new`で作られたインスタンスは関数の終わりでもデストラクタが呼ばれないのに対して`auto_ptr`で作られたインスタンスは関数の終わりで開放されている
+`new`で作られたインスタンスは関数の終わりでもデストラクタが呼ばれないのに対して`unique_ptr`で作られたインスタンスは関数の終わりで開放されている
 
-これは`auto_ptr`が実際にはクラスのインスタンスであり、関数が終わるときに自動的に`auto_ptr`のデストラクタを呼ぶため、デストラクタで管理しているメモリ領域に対して`delete`を実行している
+これは`unique_ptr`が実際にはクラスのインスタンスであり、関数が終わるときに自動的に`unique_ptr`のデストラクタを呼ぶため、デストラクタで管理しているメモリ領域に対して`delete`を実行している
 
-注意点としてはこれはクラスの機能として実装されているので`auto_ptr`自体がポインタというわけではないし、配列のときのように`++`や`--`のようなポインタ演算はできなくなっている
+注意点としてはこれはクラスの機能として実装されているので`unique_ptr`自体がポインタというわけではないので、配列のときのように`++`や`--`のようなポインタ演算はできなくなっている
 
 だが、感覚的には同じように扱えて、`*`で値にアクセスしたり`->`でメンバにアクセスすることができる
 
->`auto_ptr`でアクセスできるのは`new`演算子で確保した分だけであり、`malloc`で確保されたメモリは管理できない  
-ちなみに他のスマートポインタなら確保することができる
+>`unique_ptr`で通常アクセスできるのは`new`演算子で確保した分だけであり、`malloc`で確保されたメモリは特殊な方法で管理することができる  
 
-ちなみに
 
 ```c++
 my_class*p = new p();
-std::auto_ptr<my_class> ptr (p);
+std::unique_ptr<my_class> ptr (p);
 ```
 
 これでも動く
 
-`auto_ptr`の引数になっているところはポインタを渡しているのでこうやって`new`でメモリを確保したところのポインタを渡しても動く
+`unique_ptr`の引数になっているところはポインタを渡しているのでこうやって`new`でメモリを確保したところのポインタを渡しても動く
 
 >そもそも`new`演算子はポインタを返すものだからね
 
 ### 生ポインタの確認
 
-さっき`auto_ptr`自体がポインタではないと言った  
+さっき`unique_ptr`自体がポインタではないと言った  
 ではその変数の実際のポインタにはどうやってアクセスするのかという話になる
 
 結論から言うと`get`関数だ
 
 ```c++
-std::auto_ptr<int> ptr(new int(1));
+std::unique_ptr<int> ptr(new int(1));
 
 int*p = ptr.get();
 ```
 
 この方法で取得した変数に対して絶対に　`delete`しないようにしよう  
-`auto_ptr`はデストラクタが呼ばれたときに`delete`を実行するので二重開放になってエラーになる
+`unique_ptr`はデストラクタが呼ばれたときに`delete`を実行するので二重開放になってエラーになる
 
-メモリを管理していない場合は`NULL`を返す
+メモリを管理していない場合は`nullptr`を返す
 
 スマートポインタの生ポインタは極力使わないのが吉
 
@@ -117,7 +114,7 @@ int*p = ptr.get();
 確保したメモリ領域にアクセスする権利と確保したメモリを開放する義務を誰が持っているか示すもの
 
 ```c++
-std::auto_ptr<my_class> ptr(new my_class());
+std::unique_ptr<my_class> ptr(new my_class());
 ```
 
 これは`new`でメモリを確保し、スマートポインタに所有権を渡しているところだ  
@@ -126,7 +123,7 @@ std::auto_ptr<my_class> ptr(new my_class());
 
 ```c++
 my_class*p = new p();
-std::auto_ptr<my_class> ptr (p);
+std::unique_ptr<my_class> ptr (p);
 delete p;
 ```
 
@@ -137,7 +134,7 @@ delete p;
 
 ```c++
 my_class*p = new p();
-std::auto_ptr<my_class> ptr (p);
+std::unique_ptr<my_class> ptr (p);
 p = nullptr;
 ```
 
@@ -145,10 +142,10 @@ p = nullptr;
 
 ### 所有権の取得
 
-`auto_ptr`はコンストラクタにポインタをわたすことで所有権を取得できるが、`reset`関数を使うことによって所有権を再取得することができる
+`unique_ptr`はコンストラクタにポインタをわたすことで所有権を取得できるが、`reset`関数を使うことによって所有権を再取得することができる
 
 ```c++
-std::auto_ptr<my_class> mc(new my_class(1));
+std::unique_ptr<my_class> mc(new my_class(1));
 mc.reset(new my_class(2));
 ```
 
@@ -160,7 +157,7 @@ mc.reset(new my_class(2));
 `release`関数で行える
 
 ```c++
-std::auto_ptr<my_class> ptr(new my_class(1));
+std::unique_ptr<my_class> ptr(new my_class(1));
 
 my_class*p = ptr.release();
 
@@ -171,25 +168,3 @@ delete p;
 
 メモリの開放を行わないので自分で解放する必要があるところである
 
-## auto_ptrが非推奨の理由
-
-所有権の移動が意図しないところで発生してしまう可能性があるということ
-
-```c++
-std::auto_ptr<my_class> mc1(new my_class(1));
-std::auto_ptr<my_class> mc2 = mc1;
-```
-
-これでコピーをしようとしたのに所有権の移動という動作になってしまう(まぁこうじゃないとメモリの二重解放になっちゃうんじゃないのって思うんだけどね)
-
-他にもメモリの解放が`delete`限定というのもある  
-何が悪いのかというと`malloc`で確保したメモリを解放できないという点と、**配列を扱えないという点にある**
-
-配列は`delete[]`で解放する必要があるが`delete`のみしか書かれていないので配列を解放することができない
-
-これらを解決したのが次回以降で説明する`unique_ptr`や`shared_ptr`だ
-
-次回 `unique_ptr`
-
-2022/03/27  
-written by 西永
