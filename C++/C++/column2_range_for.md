@@ -70,13 +70,18 @@ for (const auto&v : vec){
 |-|-|-|
 |コピー|参照|const付き参照|
 
+しかし、この便利な範囲for文も注意するべき点がある
+
+for文を使っている最中に要素の追加や削除を行ってはいけない  
+これは範囲for文の中でイテレータというものが使われているのだが、要素の追加や削除が行われるとそのイテレータが無効になり、範囲for文が使えなくなってしまうからだ。
+
 ## 進化したif文
 
 if文の中で初期化を行えるようになった(C++17)
 
 ```C++
-if ( auto status =func();status.isError()){
-    cout<<status.getMessage();
+if ( auto status = func(); status.isError()){
+    cout << status.getMessage();
 }
 ```
 
