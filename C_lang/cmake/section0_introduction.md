@@ -114,7 +114,7 @@ cmake_minimum_required(VERSION 3.16.2)
 
 project(test_cmake CXX)
 
-add_executable(main.exe main.cpp hello.cpp)
+add_executable(main main.cpp hello.cpp)
 ```
 
 こう記述してみる
@@ -139,7 +139,7 @@ add_executable(main.exe main.cpp hello.cpp)
  |-hello.hpp  
  |-hello.cpp  
  |-build  
-	|-main.exe  
+	|-main  
 	|...（その他色々）
 ```
 
