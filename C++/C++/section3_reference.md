@@ -19,7 +19,7 @@ int main(){
 
 出力
 
-```markdowm
+```markdown
 0
 ```
 
@@ -142,4 +142,4 @@ C++11で規格化された仕様
 これは別のファイル(section3_column_Lvalue_Rvalue.md)に書く予定なのでお楽しみに
 
 2021/11/30
-writen by 西永
+written by 西永
