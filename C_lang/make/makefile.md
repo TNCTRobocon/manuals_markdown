@@ -71,21 +71,22 @@ $ make
 ~~説明する内容が変数だけじゃないのは内緒~~
 
 ```makefile
-TARGET = main
-CC     = gcc
-CFLAGS = -Wall -O2
-SRCS   = main.c hoge.c
-OBJS   = $(SRCS:%.c=%.o)
-INC    = 
-LIB    = 
+TARGET  ?= main
+CC      ?= gcc
+CFLAGS  ?= -Wall -O2 -std=c17
+SRCS    ?= main.c hoge.c
+OBJS    ?= $(SRCS:%.c=%.o)
+INC     ?= 
+LIBS    ?= 
+LDFLAGS ?= 
 .PHONY: all clean
 
 all: $(TARGET)
 $(TARGET): $(OBJS)
-    $(CC) $^ -o $@ $(CFLAGS)
+    $(CC) $^ -o $@ $(CFLAGS) $(INC) $(LIBS) $(LDFLAGS)
 
 .c.o:
-    $(CC) -c $^ $(CFLAGS)
+    $(CC) -c $^ $(CFLAGS) $(INC) $(LIBS) $(LDFLAGS) 
 
 clean:
     rm -f *exe *.o
@@ -141,9 +142,92 @@ OBJS = $(SRCS:%.c=%.o)
 
 疑似ターゲット
 
-実はmakefileは今いるディレクトリに同じ名前のファイルがあるとその名前のmakeを実行してもターゲットは最新ですというエラーが出てしまう
+実はmakefileは今いるディレクトリにサブコマンドと同じ名前のファイルがあるとその名前のmakeを実行してもターゲットは最新ですというエラーが出てしまう
 
 ここでこのルールを使うと必ずコマンドが実行されるようになる
+
+## よく使われるターゲット名
+
+今回は`all`, `clean`が書かれているが、ほかにも`install`, `uninstall`が有名である  
+
+## = と := と ?=
+
+makefileでは`=`の扱いが少し特殊だ
+
+### =
+
+再帰的な定義をする
+
+>再帰的とは自分自身で自分自身を定義すること  
+多分初見で読んだときはなんだそれって感じだと思うけどそんなもの
+
+```mk
+X = meow
+Y = cat $(X)
+X = nya-n
+
+.PHONY: cat
+
+cat:
+    @echo $(X)
+    @echo $(Y)
+```
+
+出力は
+
+```sh
+nya-n
+cat nya-n
+```
+
+とりあえず`Y = cat $(X)`って定義されたYはXが更新されると中身も更新されると覚えるとよい
+
+### :=
+
+```mk
+X := meow
+Y := cat $(X)
+X := nya-n
+
+.PHONY: cat
+
+cat:
+    @echo $(X)
+    @echo $(Y)
+```
+
+出力は
+
+```sh
+nya-n
+cat meow
+```
+
+多分皆が思う代入に一番近いと思う  
+これが一番直観的だと思われる
+
+### ?=
+
+```mk
+X ?= meow
+Y ?= cat $(X)
+X ?= nya-n
+
+.PHONY: cat
+
+cat:
+    @echo $(X)
+    @echo $(Y)
+```
+
+出力は
+
+```sh
+meow
+cat meow
+```
+
+未定義のときにのみ代入を行う演算子
 
 ## 関数
 
