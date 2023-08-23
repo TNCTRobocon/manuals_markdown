@@ -184,5 +184,86 @@ add_executable(main main.cpp hello.cpp)
 正直`hello.cpp`というファイルを追加しただけなので解説することはないとは思う  
 少なくとも同じファイル内であればこのように追加していけばいくらでもファイルのリンクはできる
 
+## サブディレクトリのファイルをコンパイルする
+
+```markdown
+|- main.cpp
+|- hello
+    |- hello.cpp
+    |- hello.hpp
+```
+
+このようにファイルが分割されたプログラムをコンパイルする
+
+### 単一の`CMakeLists.txt`でコンパイルする
+
+このようにファイルを配置する
+
+```markdown
+|- CMakeLists.txt
+|- main.cpp
+|- hello
+    |- hello.cpp
+    |- hello.hpp
+```
+
+`CMakeLists.txt`
+```cmake
+cmake_minimum_required(VERSION 3.16.2)
+
+project(test_cmake CXX)
+
+add_executable(main main.cpp hello/hello.cpp)
+```
+
+複数ファイルのコンパイルの項で書いた`CMakeLists.txt`にディレクトリをまたいだファイルの指定をするだけだ
+
+### 複数の`CMakeLists.txt`でコンパイルする
+
+```markdown
+|- CMakeLists.txt
+|- main.cpp
+|- hello
+    |- CMakeLists.txt
+    |- hello.cpp
+    |- hello.hpp
+```
+
+`CMakeLists.txt`
+```cmake
+cmake_minimum_required(VERSION 3.16.2)
+
+project(test_cmake CXX)
+
+add_subdirectory(hello)
+
+add_executable(main main.cpp)
+
+target_link_libraries(main Hello)
+```
+
+`CMakeLists.txt`
+```cmake
+cmake_minimum_required(VERSION 3.16.2)
+
+add_library(Hello STATIC hello.cpp)
+```
+
+#### 解説
+
+- `add_library`  
+  これは`C_lang/C_lang/column3_library.md`で説明しているのが詳しいが、ライブラリを作成している  
+  `STATIC`と指定しているが、これは静的ライブラリを作るように指示している  
+  `SHARED`で共有ライブラリを作成することができる
+
+- `target_link_libraries`  
+  上で作ったライブラリのリンクを指示している
+  共有ライブラリも同様にしてリンクできる
+
+- `add_subdirectory`  
+  そのサブディレクトリをcmakeの管理下に置く  
+  そのディレクトリにCMakeLists.txtがなければエラーとなる
+
+
 2022/10/26  
 written by 西永
