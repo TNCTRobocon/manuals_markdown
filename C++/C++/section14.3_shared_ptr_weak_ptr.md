@@ -173,6 +173,49 @@ if(w_ptr.expired()){
 こんな感じで書ける
 
 危険なアクセスをする気がしたら`weak_ptr`を使おう
+しかし、`weak_ptr`には所有権が存在しないため使いどころは見極めよう
+
+## スマートポインタのキャスト
+
+読者がとある型をスマートポインタで管理していて、別の型にキャストしたくなる時が来るかもしれない
+
+ここで使うのが
+
+`static_pointer_cast`と`dynamic_pointer_cast`だ
+
+```cpp
+#include <iostream>
+#include <memory>
+
+using namespace std;
+
+class A {
+
+public:
+    virtual void call() const = 0;
+};
+
+class B : public A {
+
+public:
+    void call() const override {
+        cout << "in B" << endl;
+    }
+};
+
+int main() {
+    auto b = make_shared<B>();
+
+    auto a = static_pointer_cast<A>(b);
+    a->call();
+
+    auto a2 = dynamic_pointer_cast<A>(b);
+    a2->call();
+}
+
+```
+
+`static_cast`や`dynamic_cast`のスマートポインタバージョンだと思えば良いだろう
 
 2022/03/31  
 written by 西永
