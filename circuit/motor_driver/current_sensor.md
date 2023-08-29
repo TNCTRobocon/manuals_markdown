@@ -84,7 +84,7 @@
 ![frq](images/amp_frq.png)  
 https://www.ti.com/product/ja-jp/INA199  
 
-理由は[ローパスフィルタを入れるべきか](ローパスフィルタを入れるべきか)に書いた通り。
+理由は[ローパスフィルタを入れるべきか](#ローパスフィルタを入れるべきか)に書いた通り。
 
 ローサイドがONのタイミングでADCしてあげないと上手く測定できないため、制御が少し面倒。  
 
@@ -98,7 +98,7 @@ https://www.ti.com/product/ja-jp/INA199
 
 ...書くのめんどくさくなった！！！ここの辺の記事読め！！！れ！！
 
-https://ioloa.com/blog/archives/339
+https://ioloa.com/blog/archives/339  
 https://blog.mmaakkyyii.com/posts/post24/
 
 ちょこちょこ出てきた山谷割込みとかもこの記事で学びやがれください。
