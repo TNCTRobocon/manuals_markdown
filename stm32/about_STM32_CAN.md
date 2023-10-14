@@ -75,7 +75,6 @@ FIFO0を使う場合は`CAN RX0 interrupt`,FIFO1を使う場合は`CAN RX1 inter
 
  while()ループに入る前に以下の関数を呼びましょう。
 
-- `HAL_CAN_Init(CAN_HandleTypeDef *hcan);`
 - `HAL_CAN_Start(CAN_HandleTypeDef *hcan);`
 
 `CAN_HandleTypeDef`構造体は自動生成されているはずです。
@@ -84,7 +83,6 @@ FIFO0を使う場合は`CAN RX0 interrupt`,FIFO1を使う場合は`CAN RX1 inter
 
  while()ループに入る前に以下の関数を呼びましょう。
 
- - `HAL_CAN_Init(CAN_HandleTypeDef *hcan);`
  - 受信ボックスのフィルタを設定しましょう(後述)
  - `HAL_CAN_Start(CAN_HandleTypeDef *hcan);`
  - `HAL_CAN_ActivateNotification(CAN_HandleTypeDef *hcan, uint32_t ActiveITs);`
