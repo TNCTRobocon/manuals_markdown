@@ -200,6 +200,7 @@ __weak void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){}
 /*CAN受信*/
 uint32_t id;
 uint32_t dlc;
+uint32_t rtr;
 
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
 	SET_LED_B();
@@ -209,6 +210,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
 		id = (RxHeader.IDE == CAN_ID_STD) ? RxHeader.StdId : RxHeader.ExtId; // ID
 		//このプログラムでは三項演算子で実装している
 		dlc = RxHeader.DLC;                                               // DLC
+		rtr = RxHeader.RTR;												//RTR
 		
 		//ここから処理を書く
 		system_data[RxData[0]] = RxData[1];
@@ -267,22 +269,42 @@ FIFOに格納するデータのID、FIFO0とFIFO1のどちらに格納するか�
 
 ID、データ情報やマスクデータを入れます。ただしちょっと面倒。
 
-リファレンスマニュアルより該当するレジスタの例がこちら。IDを入れるレジスタの下位ビットにデータ情報をフィルタするためのビットが同居しており、**レジスタに直接データを書き込む際、コードの可読性を上げるためにはちょっとした工夫が必要です。**
+リファレンスマニュアルより該当するレジスタの例がこちら。IDを入れるレジスタの下位ビットにデータ情報をフィルタするためのビットが同居しており、**レジスタに直接データを書き込む際、コードの可読性を上げるためにはちょっとした工夫が必要です。**~~まあ送信時にデータを入れるレジスタも同じような構成だしまだ許せる。~~
 
 ![](./images/stm32_can_6.png)
 ![](./images/stm32_can_7.png)
 
 じゃあ関数にお任せする場合はどうでしょうか？
+まず、同じような構成になっている送信用レジスタを見てみましょう。
+```C
+      /* Set up the Id */
+      if (pHeader->IDE == CAN_ID_STD)
+      {
+        hcan->Instance->sTxMailBox[transmitmailbox].TIR = ((pHeader->StdId <<CAN_TI0R_STID_Pos) | pHeader->RTR);
+      }
+      else
+      {
+        hcan->Instance->sTxMailBox[transmitmailbox].TIR = ((pHeader->ExtId << CAN_TI0R_EXID_Pos) | pHeader->IDE | pHeader->RTR);
+      }
+```
+
+ユーザーが扱う部分ではIDを入れる変数とデータ情報を入れる変数が分かれており、関数がうまいことやってくれています。
+
+じゃあフィルタ側は…
+
 ```C
 関数のレジスタ操作個所を抜粋
 can_ip->sFilterRegister[sFilterConfig->FilterBank].FR1 =
     ((0x0000FFFFU & (uint32_t)sFilterConfig->FilterIdHigh) << 16U) |
     (0x0000FFFFU & (uint32_t)sFilterConfig->FilterIdLow);
 ```
-**受け取った値をレジスタにそのまま突っ込んでいます。**
+**受け取った値をレジスタにそのまま突っ込んでいます。**~~なんでやねん~~
 
 ということで、**`FilterIdLow`にIDの下位側とデータ情報が同居しており、IDを入れるビットのさらに下位にフレームの種類を指定するビットがあるということを考慮しなければなりません。**
-~~なんで同居する設計にしちゃったんですか…？~~
+~~送信時はちゃんとIDとデータ情報で入れる変数が分かれているのに、なんでフィルタはIDとデータ情報が同居する設計にしちゃったんですか…？~~
+~~レジスタ叩きたくないからHAL使ってんのになんでレジスタのことを気にしなきゃならないんじゃ~~
+
+失礼しました。
 
 また、標準IDか拡張IDかという問題のほかにフィルタースケールという要素もあり、ややこしいことこの上ないうえに地味に面倒です。
 
