@@ -70,7 +70,7 @@ PICにプログラムを書き込めます。
 
 - Visual Studio Code
 
-略称VSCde。
+略称VSCode。
 プログラムを書きます。
 C言語やC++,Python,Javaなど、様々なプログラミング言語で書けます。
 
