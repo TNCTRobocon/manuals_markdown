@@ -85,7 +85,8 @@ MDにはいろいろ種類があります。例として挙げると、
 
 課題5の解答
 
-（あとではる）
+<img src="https://github.com/TNCTRobocon/manuals_markdown/assets/110577719/3ec82584-5a16-4720-84eb-ecf5dc1ece09" width="70%">
+
 
 作ってもらっておいてですが、この回路には問題点があります。
 
@@ -113,7 +114,7 @@ Q1,Q3は、ONのときのソースの電圧はドレインの電圧にほぼ等�
 
 課題6の解答
 
-（あとではる）
+<img src="https://github.com/TNCTRobocon/manuals_markdown/assets/110577719/e8a9e577-2a33-41a4-9d49-cab6e9121b5c" width="70%">
 
 Q1,Q3がPchMOSFETになりました。
 
@@ -138,7 +139,8 @@ Q1,Q3がPchMOSFETになりました。
 
 こちらが回答ですどーん
 
-（あとではる）
+<img src="https://github.com/TNCTRobocon/manuals_markdown/assets/110577719/2e46e44a-4ce7-4ab3-8dab-03d8bc364b4f" width="70%">
+
 
 トランジスタがレベル変換してマイコンからのGPIOの3.3V入力でモーターが回る仕組みですね。
 
