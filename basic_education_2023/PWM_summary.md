@@ -22,7 +22,7 @@ googleで調べると、多くの記事がヒットすると思いますので�
 ## PWMとは
 PWMとは、パルス変調とも言います。
 
-![image](https://github.com/TNCTRobocon/manuals_markdown/assets/110577719/960e98b3-0143-42b4-be36-096a62d1faf9)
+![image](https://github.com/user-attachments/assets/01a605e3-1445-4c9c-8331-da58d4761608)
 
 入力電圧が一定の状態でスイッチのONとOFFの繰り返しにより制御し、高速でその動作を行うことで、パルス波形が生成され、パルスの時間を変化させることで、負荷へ供給される電力を制御するというものです。
 この時できるパルス波形の幅をパルス幅といいます。
