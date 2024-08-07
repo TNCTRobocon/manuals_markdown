@@ -176,6 +176,6 @@ MOSFETの駆動の遅い点です。
 
 </details>
 
-想定より長くなったので、続きを作りました。続きはこちら(あとではる)。
+想定より長くなったので、続きを作りました。続きは[こちら](https://github.com/TNCTRobocon/manuals_markdown/blob/nei_daiki/edu/basic_education_2023/MD_TryMake2.md)
 
 最終更新日:2024/3/15
