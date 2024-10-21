@@ -1,4 +1,4 @@
-# HelloWorldしてみよう
+# HelloWorldしてみよう〜publisher編〜
 ## 概要
 publisher/subscriber型通信を行ってみましょう。  
 ここでは、publisherが送ったString型のトピックをsubscriberで受け取って表示してみることにします。  
@@ -91,7 +91,7 @@ publisher/subscriber型通信を行ってみましょう。
         先程のcreate_timerから呼び出される関数です。  
         2, 4行目で内部処理用の変数として先程宣言したcountを1増やし、文字列と結合しています。  
         `msg.data`という形でデータを代入しているのはROSのString型の構造のためです。くわしくは調べてね。  
-        5行目では、先程宣言したpublisher_オブジェクトのもつpublish関数にトピックメッセージを渡してpublushしています。  
+        5行目では、先程宣言したpublisher_オブジェクトのもつpublish関数にトピックメッセージを渡してpublishしています。  
         6行目は、Nodeクラスのもつログ表示用関数です。  
     - ```python
          def main(args=None):
@@ -101,7 +101,7 @@ publisher/subscriber型通信を行ってみましょう。
             hello_world_publisher.destroy_node()
             rclpy.shutdown()
         ```
-        擬似的なmain関数です。pythonにはmain関数の概念は存在しませんが、諸々の理由で実装してあります。
+        擬似的なmain関数です。pythonにはmain関数の概念は存在しませんが、諸々の理由で実装してあります。(補足に書きます)  
         2行目でROSの初期化、3行目でNodeクラスを継承した HelloWorldPublisherクラスを実体化しています。  
         4行目で、ROSの処理を開始しています。これは、ctrl+cなどの例外が発生するまで動き続けます。  
         例外が発生すると、5行目,6行目に移り、終了処理を行います。
@@ -114,11 +114,12 @@ publisher/subscriber型通信を行ってみましょう。
 3. 実行してみよう  
     1. `robocon2024_ws`まで上のフォルダに移動しよう。`cd ..`でひとつ上に移動できるよ。  
     2. `colcon build`を実行
-    3. `ros2 run  helloworld helloworld_node`を実行しよう
+    3. `ros2 run helloworld helloworld_node`を実行しよう
 
 ## 補足
 ### QoSについて  
-QoSとはQuality of Serviceのこと。ノード間の通信をネットワークを介して行うROSでは、大量のデータをやり取りする際に優先度のようなものを決めて通信する必要がある。  
+QoSとはQuality of Serviceのこと。  
+ノード間の通信をネットワークを介して行うROSでは、大量のデータをやり取りする際に優先度のようなものを決めて通信する必要がある。  
 その優先度を設定するのがQoSプロファイルで、割と細かく設定できる。  
 QoSの概念についてくわしくは[こちら](https://www.infraexpert.com/study/telephony6.html)。  
 
@@ -139,4 +140,58 @@ string data
 まあC言語の構造体みたいなもんだと思ってください。  
 std_msgsの中には、[Int16](https://docs.ros2.org/foxy/api/std_msgs/msg/Int8.html)、[UInt8](https://docs.ros2.org/foxy/api/std_msgs/msg/UInt8.html)、[Float64](https://docs.ros2.org/foxy/api/std_msgs/msg/Float64.html)型や、これらの配列である[Int16MultiArray](https://docs.ros2.org/foxy/api/std_msgs/msg/Int8MultiArray.html)、[UInt8MultiArray](https://docs.ros2.org/foxy/api/std_msgs/msg/UInt8MultiArray.html)、[Float64MultiArray](https://docs.ros2.org/foxy/api/std_msgs/msg/Float64MultiArray.html)型の他、色を表す[ColorRGBA](https://docs.ros2.org/foxy/api/std_msgs/msg/ColorRGBA.html)型など、様々なものがあります。  
 
+### 擬似的なmain関数が必要な理由
+rclpyでは、ノード名やパッケージ名とプログラムを関連付けるために`setup.py`と呼ばれるファイルが必要になります。  
+これは、あるプログラムの`setup.py`です。
+```python
+from setuptools import find_packages, setup
 
+package_name = 'ros_main'
+submodules = 'ros_main/module'
+
+setup(
+    name=package_name,
+    version='0.0.0',
+    packages=[package_name,submodules],
+    data_files=[
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+    ],
+    install_requires=['setuptools'],
+    zip_safe=True,
+    maintainer='hogehuga',
+    maintainer_email='hogehoge@hugahuga.jp',
+    description='TODO: Package description',
+    license='TODO: License declaration',
+    tests_require=['pytest'],
+    entry_points={
+        'console_scripts': [
+            'ros_main = ros_main.ros_main:main'
+        ],
+    },
+)
+```
+基本的に自動的に生成されるので、重要なところだけ説明します。
+- ```python
+    packages=[package_name,submodules],
+    data_files=[
+        ('share/ament_index/resource_index/packages',
+            ['resource/' + package_name]),
+        ('share/' + package_name, ['package.xml']),
+    ],
+    ```  
+    実際にプログラムを実行する際、ROS2は直接プログラムを読むのではなく、別のフォルダにコピーされたプログラムを読むことで実行されます。  
+    そのフォルダ(shareフォルダ)を指定するコードです。  
+    
+- ```python
+    entry_points={
+        'console_scripts': [
+            'ros_main = ros_main.ros_main:main'
+        ],
+    },
+    ```
+    一番肝心なところがこれです。  
+    普段`ros2 run ros_main ros_main`の用にコードを実行しますが、`ros_main`という名前とプログラムを紐付けている部分がここです。  
+    意味としては、「ros_mainという実行時のノード名はros_mainというフォルダ内のros_main.pyの中のmain関数に紐付けます」という感じです。  
+    もしノードを増やしたかったりしたら、ここを書き換えましょう。
