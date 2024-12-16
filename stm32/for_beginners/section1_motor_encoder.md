@@ -56,7 +56,7 @@ user_code2 ないしは while文の部分に以下のコードを追加する(�
 //回転方向を決める
 HAL_GPIO_WritePin(GPIOA, GPIO_PIN_15, GPIO_PIN_SET);
 HAL_GPIO_WritePin(GPIOD, GPIO_PIN_8, GPIO_PIN_RESET);
-//PWMのデューティ比を決める(x/65535)
+//出力値を決める
 __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_4, 5000);
 ```
 さて、これで準備ができた。さぁ、コンパイルして書き込んでみよう  
