@@ -35,3 +35,46 @@ void im920_ch_select(){
 
 この関数を実行するだけで、送信はできる  
 送信割り込みとか色々高度なことは可能だけど、まぁ一旦このくらいで
+
+### UART通信のやりかた(受信)
+実は送信より受信のほうが難しい  
+というわけで、受信処理について学ぼう  
+まず、受信の関数はこれ
+```cpp
+HAL_UART_Receive(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size, uint32_t Timeout);
+```
+これを使えばかんたんに受信できる...というわけではない  
+詳しいことは省くが、このポーリングという受信のやり方は、受信漏れが起きることがあるので、  
+あまりおすすめしない  
+  
+だったらどうやって受信するの？？？？？？？  
+私なら 「割り込み」を使う  
+ここで突然ですが、「割り込み」について知っていますか？  
+割り込みとは、進んでいる処理を一度中断して、  
+優先度の高い他の処理を先に実行することです(処理が終わったら、途中から続ける)  (適当)  
+
+...ということで、UART通信の割り込みについて知っておこう  
+まずはこの関数について、
+```cpp
+HAL_UART_Receive_IT(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size);
+```
+この関数は、さっきのものに  「IT」 がついただけだ  
+この 「IT」 勘の良いひとは築くかもしれないが、 interrupt の意味だと思います  
+
+この関数の使い方は、今までと少し違うので、実際に使ってる部分を見てほしい  
+```cpp
+//on code space 2
+uint8_t rx_buffer; //配列でもよい
+HAL_UART_Receive_IT(&huart2, rx_buffer, 1); //uart2 , バッファ, 受信サイズ(この分)
+
+//other code space
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
+	//UART callback
+	HAL_GPIO_TogglePin(LED1_GPIO_Port, LED1_Pin);
+  if (huart->Instance == USART2){
+   //処理 
+  }
+  rx_buff=0;
+  HAL_UART_Receive_IT(&huart2, &rx_buff, 1); //もう一回トリガーをかける
+}
+```
