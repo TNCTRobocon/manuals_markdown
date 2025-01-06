@@ -62,8 +62,84 @@
    1. `colcon build`  
    2. `ros2 run hello_world hello_world_sub_node`  
 
-## 補足
 
-### get_logger()について
+## get_logger()について(補足)
 
-にゃーん
+デバッグをする上で情報を出力することは手軽で有用な方法です。  
+ROSでは、情報を出力するためにloggerの仕組みがあり、どのノードがいつ出力した情報であるか、簡単に表示できます。  
+
+### ログの出力先  
+
+ROS2のログシステムでは、3つの出力先を選べます。
+  
+1. ターミナル  
+2. ストレージ上のログファイル  
+3. `/rosout`トピック  
+
+### ログレベル  
+
+出力するログにレベルを設定することができます。高い順に以下のものがあります。  
+
+```txt
+Fatal
+Error
+Warn
+Info
+Debug
+```
+
+いくつかの方法を用いて、実行時に表示するログレベルを設定できます。  
+実際は、設定したものより上のログがすべて表示されます。  
+たとえば、ログレベルをWarnにするとWarn、Error、Fatalが、  
+ログレベルをDebugにするとWarn、Error、Fatal、Info、Debugのすべてが表示されます。  
+
+### 実装(python)  
+
+```python
+self.get_logger().info("Hello, info!")
+self.get_logger().debug("Hello, debug!")
+```
+
+超かんたんです。
+
+### 実装(C++)
+
+```cpp
+RCLCPP_INFO(this->get_logger(), "Hello, info!");
+RCLCPP_DEBUG(this->get_logger(), "Hello, debug!");
+```
+
+超かんたんです。  
+
+### 実行時に表示するログレベルを変更する(ros2 run編)  
+
+`ros2 run 〇〇 △△ --ros-args --log-level debug`  
+普通に見たとおりです。  
+
+### 実行時に表示するログレベルを変更する(ros2 launch編)  
+
+launchファイルの話をまだしてない気がしますが、書いてしまいます。  
+全部書くのだるいので必要な部分だけ書きます。全体像はlaunchの回を見てください。  
+
+```python
+    ld = LaunchDescription()
+    log_level = LaunchConfiguration("log_level")
+    log_level_arg = DeclareLaunchArgument(
+        "log_level", 
+        default_value = ["info"],
+        description = "Logging level",
+    )
+    
+    hello_world_node = Node(
+        package="hello_world",
+        executable="hello_world_node",
+        name="hello_world_node",
+        emulate_tty=True,
+        arguments=["--ros-args", "--log-level", log_level]    
+    )
+    ld.add_action(log_level_arg)
+    ld.add_action(hello_world_node)
+```
+
+実行方法は`ros2 launch helloworld_launch log_level:=debug`  
+みたいな感じです。デフォルト引数でinfoを指定しているので`log_level:=debug`がないとinfoになります。  
