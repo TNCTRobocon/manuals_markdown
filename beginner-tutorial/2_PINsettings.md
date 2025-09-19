@@ -2,11 +2,11 @@
 ## そもそもの仕組み
 ロボコン(特に低レイヤ)では主に、  
 - GPIO
- - PWM(GPIOの応用的なもの) 
- - UART・USART
- - SPI
- - I2C
- - CAN 
+  - PWM(GPIOの応用的なもの)  
+  - UART・USART
+  - SPI
+  - I2C
+  - CAN 
 - TIMER
 - ADC
 
