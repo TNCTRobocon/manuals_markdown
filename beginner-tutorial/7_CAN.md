@@ -206,11 +206,11 @@ CANで送信するメッセージは下のような形をしています。
 PCからUARTでマイコンに目標値(ロボマスモーターの目標スピード)を送る→CANでロボマスに送信→ロボマスから情報受信→PCにUARTで送信  
 このような手順で今回はやっていきます。  
 早速STMを起動して新しいプロジェクトを作ります。F446REを使います。  
-CAN通信も当然Tx(送信)とRx(受信)が必要です。今回著者が使った基板の回路図を見ると、下の画像のようにPA11がCAN1_TX,PA12がCAN1_RXでした。それに従ってPIN設定をします。  
+CAN通信も当然Tx(送信)とRx(受信)が必要です。今回は公式が出している基板(NUCLEO基板)を使います。PIN配置は公式が出しているシートから確認します。下の画像のように、CAN2_Txが,Rxが,USART2Txが,Rxがでした。
 
-![alt text](images/image-56.png)
+ここにこうしきのぬくれおのがぞうはるよ～
 
-今回はCAN割り込みとUART割り込みとタイマー割り込みをします。ロボマスから送られるCANはUARTに比べて速度がとても速いので、受信するたびにPCに送信するのではなく、一定時間たったら送ります。そのためにタイマー割り込みを使うのです。今回はAPB1timerclockを90MHzにする予定なので、下の画像のようにClockSourceをInternalClockに、Prescalerを89,Counter Periodを9999にして、100Hzの通信速度でPCに送信します。  
+今回はCAN割り込みとUART割り込みとタイマー割り込みをします。ロボマスから送られるCANはUARTに比べて速度がとても速いので、受信するたびにPCに送信するのではなく、一定時間たったら送ります。そのためにタイマー割り込みを使うのです。今回はAPB1timerclockを90MHzにする予定なので、下の画像のようにClockSourceをInternalClockに、Prescalerを8999,Counter Periodを99999にして、0.1Hzの通信速度でPCに送信します。  
 
 ![alt text](images/image-57.png)
 
@@ -253,7 +253,7 @@ Ctrl + sで保存し、コードが自動生成されます。
 ## コーディングをしよう
 CAN割り込みに使う関数がコチラ  
 `HAL_CAN_Start(&hcan〇);`と`HAL_CAN_ActivateNotification(&hcan〇, CAN_IT_RX_FIFO0_MSG_PENDING);`と`void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){}`です。全てHALライブラリの関数です。  
-`HAL_CAN_Start(&hcan〇);`は通信開始の関数で、今回はCAN1なので〇には1が入ります。`HAL_CAN_ActivateNotification(&hcan〇, CAN_IT_RX_FIFO0_MSG_PENDING);`は特定の条件を満たすと割込み関数を呼ぶもので、今回の様な`CAN_IT_RX_FIFO0_MSG_PENDING`の場合はCANでメッセージを受信したときに割り込みが発生するようになっています。〇には1が入ります。`void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){}`は割り込み処理の内容を書きます。  
+`HAL_CAN_Start(&hcan〇);`は通信開始の関数で、今回はCAN2なので〇には2が入ります。`HAL_CAN_ActivateNotification(&hcan〇, CAN_IT_RX_FIFO0_MSG_PENDING);`は特定の条件を満たすと割込み関数を呼ぶもので、今回の様な`CAN_IT_RX_FIFO0_MSG_PENDING`の場合はCANでメッセージを受信したときに割り込みが発生するようになっています。〇には2が入ります。  `voidHAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){}`は割り込み処理の内容を書きます。  
 
 機器不足のためここまでで一旦停止。
 
