@@ -203,19 +203,19 @@ CANで送信するメッセージは下のような形をしています。
 それぞれの機能はこんな感じで、特に重要なのはID,DLC,DATAで、この3要素は私たちの制御に深くかかわってきます。  
 ## 早速やってみよう 
 今回はロボマスモーターというCANで動くモーターを動かします。  
-PCからUARTでマイコンに目標値(ロボマスモーターの目標スピード)を送る→CANでロボマスに送信→ロボマスから情報受信→PCにUARTで送信  
+STMのLiveExpressionでマイコンに目標値(ロボマスモーターの目標スピード)を設定→CANでロボマスに送信→ロボマスから情報受信→PCにUARTで送信  
 このような手順で今回はやっていきます。  
 早速STMを起動して新しいプロジェクトを作ります。F446REを使います。  
 CAN通信も当然Tx(送信)とRx(受信)が必要です。今回は公式が出している基板(NUCLEO基板)を使います。PIN配置は公式が出しているシートから確認します。下の画像のように、CAN2_TxがPA2,RxがPA3,USART2TxがPB13,RxがPB12でした。
 
 ![alt text](images/iiimage.png)  
 
-今回はCAN割り込みとUART割り込みとタイマー割り込みをします。ロボマスから送られるCANはUARTに比べて速度がとても速いので、受信するたびにPCに送信するのではなく、一定時間たったら送ります。そのためにタイマー割り込みを使うのです。今回はAPB1timerclockを90MHzにする予定なので、下の画像のようにClockSourceをInternalClockに、Prescalerを8999,Counter Periodを99999にして、0.1Hzの通信速度でPCに送信します。  
+今回はCAN割り込みとUART割り込みとタイマー割り込みをします。ロボマスから送られるCANはUARTに比べて速度がとても速いので、受信するたびにPCに送信するのではなく、一定時間たったら送ります。そのためにタイマー割り込みを使うのです。今回はAPB1timerclockを90MHzにする予定なので、下の画像のようにClockSourceをInternalClockに、Prescalerを89,Counter Periodを9999にして、10Hzの通信速度でPCに送信します。  
 
 ![alt text](images/image-57.png)  
 
 前回同様Enabledのチェックを入れるのを忘れずに。USART2も前のようにModeをAsynchronousにし、Enabledのチェックを入れます。  
-次に、下の画像のようにConnectivityからCAN1を選択し、ModeのActivatedにチェックを入れ、パラメータをこのように設定してください。  
+次に、下の画像のようにConnectivityからCAN2を選択し、ModeのActivatedにチェックを入れ、パラメータをこのように設定してください。  
 
 ![alt text](<images/Screenshot from 2025-10-17 16-39-29.png>)  
 
@@ -249,7 +249,33 @@ Ctrl + sで保存し、コードが自動生成されます。
 ## コーディングをしよう
 CAN割り込みに使う関数がコチラ  
 `HAL_CAN_Start(&hcan〇);`と`HAL_CAN_ActivateNotification(&hcan〇, CAN_IT_RX_FIFO0_MSG_PENDING);`と`void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){}`です。全てHALライブラリの関数です。  
-`HAL_CAN_Start(&hcan〇);`は通信開始の関数で、今回はCAN2なので〇には2が入ります。`HAL_CAN_ActivateNotification(&hcan〇, CAN_IT_RX_FIFO0_MSG_PENDING);`は特定の条件を満たすと割込み関数を呼ぶもので、今回の様な`CAN_IT_RX_FIFO0_MSG_PENDING`の場合はCANでメッセージを受信したときに割り込みが発生するようになっています。〇には2が入ります。  `voidHAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){}`は割り込み処理の内容を書きます。  
+`HAL_CAN_Start(&hcan〇);`は通信開始の関数で、今回はCAN2なので〇には2が入ります。`HAL_CAN_ActivateNotification(&hcan〇, CAN_IT_RX_FIFO0_MSG_PENDING);`は特定の条件を満たすと割込み関数を呼ぶもので、今回の様な`CAN_IT_RX_FIFO0_MSG_PENDING`の場合はCANでメッセージを受信したときに割り込みが発生するようになっています。〇には2が入ります。  `voidHAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){}`は割り込み処理の内容を書きます。一例ですが、下のような感じです。  
+```cpp
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+	char msg[64];
+	sprintf(msg, "Angle:%d, Torque:%d, Velocity:%d\r\n",data[0], data[1], data[2]);
+	HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), 100);
+}
+
+void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
+    CAN_RxHeaderTypeDef RxHeader;
+    CAN_TxHeaderTypeDef TxHeader;
+    uint8_t TxData[8] = {0};
+    uint32_t TxMailbox;
+    TxHeader.StdId = 0x200;
+    TxHeader.RTR = CAN_RTR_DATA;
+    TxHeader.IDE = CAN_ID_STD;
+    TxHeader.DLC = 8;
+    
+    HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, RxData);
+    for(int i=0;i<3;i++){
+    	data[i] = (uint16_t)RxData[2*i]<<8|RxData[2*i+1];
+    }
+    TxData[0] = (send_data >> 8) & 0xFF;
+    TxData[1] = send_data & 0xFF;
+    HAL_CAN_AddTxMessage(hcan, &TxHeader, TxData, &TxMailbox);
+}
+```  
 
 機器不足のためここまでで一旦停止。
 

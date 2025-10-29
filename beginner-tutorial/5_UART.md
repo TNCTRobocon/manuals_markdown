@@ -114,7 +114,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){
 `duty[num] = duty[num]*10 + (rxbuffer[num][k]-'0');`ですが、duty[num]はint型の配列で、Duty比の情報に計算を加えて最終的にこれが点灯カウント数になります。  
 `rxbuffer[num][k]-'0'`はアスキーコードにより文字を数値に変換しています。文字にはそれぞれ固有のアスキーコード(ユニコードみたいなやつ)があります。0～9の数字にももちろんアスキーコードがあり、 **「数字xのアスキーコード」-「0のアスキーコード」** を計算すると、文字としてではなく、数字としてのxの値が出てきます。これによりrxbuffer[num][k]-'0'は、rxbuffer[num][k]に格納された文字を数値に変換しているのです。  
 10倍して桁移動し、桁が一つ下のものを足す操作を3回行い、全てのけたを用意できたら、前回やった__HAL_TIM_SET_COMPAREでPWM出力をします。  
-`sprintf`は文字列を作る関数で、#include <cstdio>により使用できるライブラリの関数です。また、strlen(msg)は文字列の長さを求める関数で、#include <string.h>により使用できるライブラリの関数です。`HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);`はHALライブラリの関数で、UARTで文字を送信する関数です。huart2が今回のUARTで、(uint8_t*)msgが送るメッセージ、先ほども言ったとおりstrlen(msg)は送る文字列の長さで、HAL_MAX_DELAYは待機時間です。  
+`sprintf`は文字列を作る関数で、`#include <cstdio>`により使用できるライブラリの関数です。また、strlen(msg)は文字列の長さを求める関数で、`#include <string.h>`により使用できるライブラリの関数です。`HAL_UART_Transmit(&huart2, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);`はHALライブラリの関数で、UARTで文字を送信する関数です。huart2が今回のUARTで、(uint8_t*)msgが送るメッセージ、先ほども言ったとおりstrlen(msg)は送る文字列の長さで、HAL_MAX_DELAYは待機時間です。  
 処理が終わったら`HAL_UART_Receive_IT(&huart2, &rx_data, 1);`で次の受信を待ちます。rxbufferなどは66行目あたりの USER CODE BEGIN 0の下で定義しておきましょう。  
 ## Tera Termから送信しよう
 あとはTeraTermの設定を終えれば通信の準備が整います。頑張りましょう。  
