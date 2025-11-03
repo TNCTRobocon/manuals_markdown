@@ -276,7 +276,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan){
     HAL_CAN_AddTxMessage(hcan, &TxHeader, TxData, &TxMailbox);
 }
 ```  
-
+`TxHeader.StdId`は、ロボマスから送られてくるCANのidが0x200番台の為、0x200にしています。ほかにも、先述の`RTR`,`IDE`,`DLC`にそれぞれデータを格納しています。これは任意ではなく、CAN通信の際は必ず書きます。
 機器不足のためここまでで一旦停止。
 
 
