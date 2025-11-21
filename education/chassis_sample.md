@@ -181,6 +181,7 @@ int main(void)
 ```cpp
 int current[4];
 
+// 追加
 float p_gein[4] = {6, 6, 6, 6};
 float i_gein[4] = {3, 3, 3, 3}; 
 float integral[4];
@@ -191,31 +192,32 @@ const float gear_ratio = 19;
 PIゲイン、積分値、速度指令値、ギア比を定義
 コピペOK
 #### CAN割り込み
-```diff
+```cpp
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     CAN_RxHeaderTypeDef RxHeader;
     uint8_t RxData[8];
     if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK) return;
     uint32_t id = (RxHeader.IDE == CAN_ID_STD)? RxHeader.StdId : RxHeader.ExtId;
-+ 	if(hcan == &hcan2){
-+		if(0x200 <= id && id <= 0x203){
-+			int robomas_id = id - 0x200;
-+			velocity[robomas_id] = (RxData[2] << 8 | RxData[3]) / gear_ratio / 8192 * 6.28 // データーシート参照
-+		}
-+	}
+ 	if(hcan == &hcan2){
+		// 追加
+		if(0x200 <= id && id <= 0x203){
+			int robomas_id = id - 0x200;
+			velocity[robomas_id] = (RxData[2] << 8 | RxData[3]) / gear_ratio / 8192 * 6.28 // データーシート参照
+		}
+	}
 }
 ```
 （WIP）
 #### TIM割り込み
-```diff
+```cpp
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 	if(htim == &htim7){
 		for(int i = 0;i < 4;i++){
--           current[i] = 300; // 全モーターの電流値を300に設定
-+			const float dt = 0.001;
-+			float error = target_vel[i] - velocity[i];
-+			current[i] = p_gein * error + i_gein * integral[i];
-+			integral[i] += error * dt;
+			// 変更
+			const float dt = 0.001;
+			float error = target_vel[i] - velocity[i];
+			current[i] = p_gein * error + i_gein * integral[i];
+			integral[i] += error * dt;
 		}
         send_current_data();
 	}
@@ -234,13 +236,13 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     uint8_t RxData[8];
     if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK) return;
     uint32_t id = (RxHeader.IDE == CAN_ID_STD)? RxHeader.StdId : RxHeader.ExtId;
-+ 	if(hcan == &hcan1){
-+		if(0x10 <= id && id <= 0x13){
-+			int robomas_id = id - 0x10;
-+			target_vel[robomas_id] = *(float*)RxData;
-+		}
-+	}
- 	if(hcan == &hcan2){
+	// 追加
+ 	if(hcan == &hcan1){
+		if(0x10 <= id && id <= 0x13){
+			int robomas_id = id - 0x10;
+			target_vel[robomas_id] = *(float*)RxData;
+		}
+	}else if(hcan == &hcan2){
 		if(0x200 <= id && id <= 0x203){
 			int robomas_id = id - 0x200;
 			velocity[robomas_id] = (RxData[2] << 8 | RxData[3]) / gear_ratio / 8192 * 6.28; // データーシート参照
