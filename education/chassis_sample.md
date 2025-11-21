@@ -173,7 +173,7 @@ int main(void)
 ## step2 PID制御をしよう
 
 ### 仕様
-速度1(rad/s)で繋がっているすべてのモーターを回す。
+速度1(rad/s)で繋がっているすべてのモーターを回す。\
 モタドラからのフィードバックを受けて速度PI制御[^3]をする。
 
 ### 実装
@@ -182,8 +182,8 @@ int main(void)
 int current[4];
 
 // 追加
-float p_gein[4] = {6, 6, 6, 6};
-float i_gein[4] = {3, 3, 3, 3}; 
+float p_gein[4] = {600, 600, 600, 600};
+float i_gein[4] = {300, 300, 300, 300}; 
 float integral[4];
 float target_vel[4] = {1, 1, 1, 1}; // 1 (rad/s)
 float velocity[4];
@@ -198,8 +198,8 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     uint8_t RxData[8];
     if (HAL_CAN_GetRxMessage(hcan, CAN_RX_FIFO0, &RxHeader, RxData) != HAL_OK) return;
     uint32_t id = (RxHeader.IDE == CAN_ID_STD)? RxHeader.StdId : RxHeader.ExtId;
+	// 追加
  	if(hcan == &hcan2){
-		// 追加
 		if(0x200 <= id && id <= 0x203){
 			int robomas_id = id - 0x200;
 			velocity[robomas_id] = (RxData[2] << 8 | RxData[3]) / gear_ratio / 8192 * 6.28 // データーシート参照
@@ -207,7 +207,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
 	}
 }
 ```
-（WIP）
+
 #### TIM割り込み
 ```cpp
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -216,7 +216,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 			// 変更
 			const float dt = 0.001;
 			float error = target_vel[i] - velocity[i];
-			current[i] = p_gein * error + i_gein * integral[i];
+			current[i] = p_gein[i] * error + i_gein[i] * integral[i];
 			integral[i] += error * dt;
 		}
         send_current_data();
@@ -230,7 +230,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
 ## step3 PCからの司令を受け取ろう
 #### CAN割り込み
-```diff
+```cpp
 void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
     CAN_RxHeaderTypeDef RxHeader;
     uint8_t RxData[8];
