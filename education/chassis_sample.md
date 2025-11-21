@@ -66,7 +66,7 @@ int current[4];
 ```
 #### CANの初期設定
 ```cpp
-void CAN_init(){
+void CAN_Init(){
     CAN_FilterTypeDef can1_filter, can2_filter;
 	can1_filter.FilterIdHigh         = 0 << 5;
 	can1_filter.FilterIdLow          = 0 << 5;
@@ -160,8 +160,8 @@ int main(void)
 {
 	（略）
   /* USER CODE BEGIN 2 */
-	CAN_init();
-	TIM_init();
+	CAN_Init();
+	TIM_Init();
   /* USER CODE END 2 */
 	（略）
 }
@@ -179,6 +179,8 @@ int main(void)
 ### 実装
 #### 変数定義
 ```cpp
+int current[4];
+
 float p_gein[4] = {6, 6, 6, 6};
 float i_gein[4] = {3, 3, 3, 3}; 
 float integral[4];
@@ -241,7 +243,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
  	if(hcan == &hcan2){
 		if(0x200 <= id && id <= 0x203){
 			int robomas_id = id - 0x200;
-			velocity[robomas_id] = (RxData[2] << 8 | RxData[3]) / gear_ratio / 8192 * 6.28 // データーシート参照
+			velocity[robomas_id] = (RxData[2] << 8 | RxData[3]) / gear_ratio / 8192 * 6.28; // データーシート参照
 		}
 	}
 }
