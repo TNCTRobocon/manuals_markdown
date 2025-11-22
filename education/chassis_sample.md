@@ -223,6 +223,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 			float error = target_vel[i] - velocity[i];
 			current[i] = p_gein[i] * error + i_gein[i] * integral[i];
 			integral[i] += error * dt;
+
+			// 電流値制限
+			if(current[i] < -10000) current[i] = -10000;
+			if(current[i] > 10000) current[i] = 10000;
 		}
         send_current_data();
 	}
