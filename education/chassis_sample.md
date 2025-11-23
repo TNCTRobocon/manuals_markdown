@@ -185,8 +185,8 @@ int main(void)
 int current[4];
 
 // 追加
-float p_gein[4] = {900, 900, 900, 900};
-float i_gein[4] = {400, 400, 400, 400}; 
+float p_gain[4] = {900, 900, 900, 900};
+float i_gain[4] = {400, 400, 400, 400}; 
 float integral[4];
 float target_vel[4] = {1, 1, 1, 1}; // 1 (rad/s)
 float velocity[4];
@@ -221,7 +221,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 			// 変更
 			const float dt = 0.001;
 			float error = target_vel[i] - velocity[i];
-			current[i] = p_gein[i] * error + i_gein[i] * integral[i];
+			current[i] = p_gain[i] * error + i_gain[i] * integral[i];
 			integral[i] += error * dt;
 
 			// 電流値制限
