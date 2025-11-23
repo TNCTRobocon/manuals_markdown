@@ -185,8 +185,8 @@ int main(void)
 int current[4];
 
 // 追加
-float p_gein[4] = {600, 600, 600, 600};
-float i_gein[4] = {300, 300, 300, 300}; 
+float p_gein[4] = {900, 900, 900, 900};
+float i_gein[4] = {400, 400, 400, 400}; 
 float integral[4];
 float target_vel[4] = {1, 1, 1, 1}; // 1 (rad/s)
 float velocity[4];
