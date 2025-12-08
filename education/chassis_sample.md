@@ -207,7 +207,7 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
 			int robomas_id = id - 0x201;
 			// cの符号付き⇔符号なしキャストは値を評価しない（bit列そのままに型を変える）
 			int16_t vel_rpm = (int16_t)(RxData[2] << 8 | RxData[3]);
-			velocity[robomas_id] = vel_rpm * 30 / 3.141592 / gear_ratio // データーシート参照
+			velocity[robomas_id] = vel_rpm * 3.141592 / 30 / gear_ratio; // データーシート参照
 		}
 	}
 }
@@ -255,8 +255,9 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan) {
 		}
 	}else if(hcan == &hcan2){
 		if(0x200 <= id && id <= 0x203){
-			int robomas_id = id - 0x200;
-			velocity[robomas_id] = (RxData[2] << 8 | RxData[3]) / gear_ratio / 8192 * 6.28; // データーシート参照
+			// cの符号付き⇔符号なしキャストは値を評価しない（bit列そのままに型を変える）
+			int16_t vel_rpm = (int16_t)(RxData[2] << 8 | RxData[3]);
+			velocity[robomas_id] = vel_rpm * 3.141592 / 30 / gear_ratio; // データーシート参照
 		}
 	}
 }
